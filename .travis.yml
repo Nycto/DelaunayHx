@@ -1,0 +1,15 @@
+language: c++
+
+before_install:
+  - sudo add-apt-repository ppa:eyecreate/haxe -y
+  - sudo apt-get update
+  - sudo apt-get install haxe -y --force-yes
+  - sudo apt-get install g++-multilib gcc-multilib
+  - mkdir ~/haxelib
+  - haxelib setup ~/haxelib
+  - haxelib -notimeout install hxcpp
+  - haxelib -notimeout install munit
+  - haxelib dev DelaunayHx $(pwd)
+
+script:
+  - make
