@@ -1,5 +1,7 @@
 .PHONY: test
 test: compile_test
+	@echo
+	@echo
 	haxelib run munit test -result-exit-code | tail -n 50
 
 compile_test_file := test/CompileTest.hx
@@ -17,7 +19,7 @@ compile_test:
 
 .PHONY: watch
 watch:
-	react $(shell git ls) $(shell find src -name "*.hx") -- make ${WATCH}
+	react $(shell git ls) $(shell find src test -name "*.hx") -- make ${WATCH}
 
 .PHONY: clean
 clean:
