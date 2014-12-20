@@ -24,5 +24,10 @@ class RealPoint implements DhxPoint {
     public inline function getY(): Float {
         return y;
     }
+
+    /** Determines whether this point equals another */
+    public function equals( other: DhxPoint ): Bool {
+        return x == other.getX() && y == other.getY();
+    }
 }
 
