@@ -4,7 +4,7 @@ test:
 
 .PHONY: watch
 watch:
-	react $(shell git ls) -- make ${WATCH}
+	react $(shell git ls) $(shell find src -name "*.hx") -- make ${WATCH}
 
 .PHONY: clean
 clean:
