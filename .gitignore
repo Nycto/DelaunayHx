@@ -1,3 +1,4 @@
 build
 test/TestMain.hx
 test/TestSuite.hx
+test/CompileTest.hx
