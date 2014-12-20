@@ -1,0 +1,10 @@
+{
+    name: "DelaunayHx",
+    version: "0.1.0",
+    description: "Delaunay triangulation library",
+    url: "https://github.com/Nycto/DelaunayHx",
+    license: "MIT",
+    tags: [],
+    dependencies: {}
+}
+
