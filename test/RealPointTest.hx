@@ -10,4 +10,8 @@ class RealPointTest {
         Assert.isFalse( new RealPoint(50, 2).equals( new RealPoint(1, 2) ) );
     }
 
+    @Test public function testHashCode():Void {
+        Assert.areEqual( 1724, new RealPoint(1, 2).hashCode() );
+    }
+
 }
