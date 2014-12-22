@@ -44,5 +44,10 @@ class RealPoint implements DhxPoint {
     public function hashCode (): Int {
         return hash(this);
     }
+
+    /** Converts this point to a readable string */
+    public function toString(): String {
+        return "Point(" + x + ", " + y + ")";
+    }
 }
 
