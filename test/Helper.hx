@@ -35,5 +35,30 @@ class Helper {
             }
         }
     }
+
+    /** Determines whether this point equals another */
+    static public function equals<T: Equals>(
+        expected: T,
+        actual: T,
+        ?info: PosInfos
+    ): Void {
+        if ( !expected.equals( actual ) ) {
+            Assert.fail(
+                "Expected " + expected + ", but was " + actual,
+                info
+            );
+        }
+    }
+
+    /** Determines whether this point equals another */
+    static public function throws(
+        callback: Void -> Void, ?info: PosInfos
+    ): Void {
+        try {
+            callback();
+            Assert.fail("Expected an exception, but none was thrown", info);
+        }
+        catch ( err: Dynamic ) {}
+    }
 }
 
