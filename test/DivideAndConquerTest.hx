@@ -31,4 +31,35 @@ class DivideAndConquerTest {
         );
     }
 
+    @Test public function testSort():Void {
+        Helper.arrayEquals(
+            [ new RealPoint(0, 5), new RealPoint(3, 3), new RealPoint(5, 1) ],
+            DivideAndConquer.sort([
+                new RealPoint(5, 1), new RealPoint(3, 3), new RealPoint(0, 5)
+            ])
+        );
+
+        Helper.arrayEquals(
+            [ new RealPoint(0, 1), new RealPoint(0, 3), new RealPoint(0, 5) ],
+            DivideAndConquer.sort([
+                new RealPoint(0, 5), new RealPoint(0, 1), new RealPoint(0, 3)
+            ])
+        );
+
+        Helper.arrayEquals(
+            [
+                new RealPoint(0, 1), new RealPoint(1, 0), new RealPoint(1, 2),
+                new RealPoint(1, 3), new RealPoint(2, 1), new RealPoint(3, 3),
+                new RealPoint(4, 2), new RealPoint(5, 0),
+                new RealPoint(5, 1), new RealPoint(5, 3)
+            ],
+            DivideAndConquer.sort([
+                new RealPoint(4, 2), new RealPoint(5, 3), new RealPoint(2, 1),
+                new RealPoint(0, 1), new RealPoint(5, 0), new RealPoint(3, 3),
+                new RealPoint(5, 1), new RealPoint(1, 2),
+                new RealPoint(1, 0), new RealPoint(1, 3)
+            ])
+        );
+    }
+
 }
