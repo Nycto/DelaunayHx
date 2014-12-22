@@ -10,7 +10,7 @@ class RealPoint implements DhxPoint {
     private var y: Float;
 
     /** Constructor */
-    public function new ( x: Float, y: Float ) {
+    public inline function new ( x: Float, y: Float ) {
         this.x = x;
         this.y = y;
     }
@@ -36,17 +36,17 @@ class RealPoint implements DhxPoint {
     }
 
     /** Determines whether this point equals another */
-    public function equals( other: DhxPoint ): Bool {
+    public inline function equals( other: DhxPoint ): Bool {
         return equal( this, other );
     }
 
     /** Generates a hash code for a point */
-    public function hashCode (): Int {
+    public inline function hashCode (): Int {
         return hash(this);
     }
 
     /** Converts this point to a readable string */
-    public function toString(): String {
+    public inline function toString(): String {
         return "Point(" + x + ", " + y + ")";
     }
 }
