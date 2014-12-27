@@ -28,5 +28,17 @@ class EdgeTest {
                 new Edge( p(1, 20), p(5, 5) ) ) );
     }
 
+    @Test public function testHashCode():Void {
+        Assert.areEqual(
+            new Edge( p(1, 2), p(5, 5) ).hashCode(),
+            new Edge( p(1, 2), p(5, 5) ).hashCode()
+        );
+
+        Assert.areNotEqual(
+            new Edge( p(1, 2), p(5, 5) ).hashCode(),
+            new Edge( p(1, 2), p(5, 50) ).hashCode()
+        );
+    }
+
 }
 

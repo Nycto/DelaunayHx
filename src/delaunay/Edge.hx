@@ -30,6 +30,11 @@ class Edge {
     public inline function toString(): String {
         return "Edge(" + one + " -> " + two + ")";
     }
+
+    /** Generates a hash code */
+    public inline function hashCode (): Int {
+        return 41 * (41 + RealPoint.hash(one)) + RealPoint.hash(two);
+    }
 }
 
 
