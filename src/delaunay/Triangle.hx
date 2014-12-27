@@ -8,70 +8,6 @@ class Triangle {
     /** A static class, so a private constructor */
     private function new () {}
 
-    /** Returns the perpendicular slope for two points */
-    public static inline function perpendicularSlope(
-        a: DhxPoint, b: DhxPoint
-    ): Float {
-        return -1 * (a.getX() - b.getX()) / (a.getY() - b.getY());
-    }
-
-    /** Returns a point that is directly between two other points */
-    public static inline function middle(
-        a: DhxPoint, b: DhxPoint
-    ): RealPoint {
-        return new RealPoint(
-            (a.getX() + b.getX()) / 2,
-            (a.getY() + b.getY()) / 2
-        );
-    }
-
-    /** In `y = mx + b`, solving for `b` */
-    static inline function yIntersect(
-        point: DhxPoint, slope: Float
-    ): Float {
-        return point.getY() - ( slope * point.getX() );
-    }
-
-    /** Returns the distance between two points */
-    public static inline function distance( a: DhxPoint, b: DhxPoint ): Float {
-        return Math.sqrt(
-            Math.pow( b.getX() - a.getX(), 2 ) +
-            Math.pow( b.getY() - a.getY(), 2 )
-        );
-    }
-
-    /** Returns the circumcenter of a triangle */
-    public static inline function circumcenter(
-        a: DhxPoint, b: DhxPoint, c: DhxPoint
-    ): RealPoint {
-
-        // Calculate the line perpindicular to `a -> b`
-        var ab_slope = perpendicularSlope(a, b);
-        var ab_yInter = yIntersect(middle(a, b), ab_slope);
-
-        // Calculate the line perpindicular to `b -> c`
-        var bc_slope = perpendicularSlope(b, c);
-        var bc_yInter = yIntersect(middle(b, c), bc_slope);
-
-        // If the slopes are the same, it means they are parallel and these
-        // three points don't form a triangle
-        if ( ab_slope == bc_slope ) {
-            throw "Given points don't form a triangle: " +
-                a + ", " + b + ", " + c;
-        }
-
-        // y = m1 * x + b1
-        // y = m2 * x + b2
-        // m1 * x + b1 = m2 * x + b2
-        // (m1 * x) - (m2 * x) = b2 - b1
-        // x * (m1 - m2) = b2 - b1
-        // x = (b2 - b1) / (m1 - m2)
-
-        var centerX = (bc_yInter - ab_yInter) / (ab_slope - bc_slope);
-        var centerY = ab_slope * centerX + ab_yInter;
-        return new RealPoint( centerX, centerY );
-    }
-
     /**
      * Determines whether a point is inside the circumcircle of a triangle
      * @param a A corner of the triangle
@@ -82,11 +18,48 @@ class Triangle {
     public static inline function isPointInCircumCircle(
         a: DhxPoint, b: DhxPoint, c: DhxPoint, d: DhxPoint
     ): Bool {
-        var center = circumcenter(a, b, c);
-        return distance(d, center) < distance(a, center);
+
+        var x1 = a.getX();
+        var y1 = a.getY();
+
+        var x2 = b.getX();
+        var y2 = b.getY();
+
+        var x3 = c.getX();
+        var y3 = c.getY();
+
+        var x4 = d.getX();
+        var y4 = d.getY();
+
+        var midx1 = (x1 + x2) / 2;
+        var midy1 = (y1 + y2) / 2;
+        var slope1 = -1 * ( (x2 - x1) / (y2 - y1) );
+        var yintercept1 = midy1 - ( slope1 * midx1 );
+
+        var  midx2 = (x2 + x3) / 2;
+        var  midy2 = (y2 + y3) / 2;
+        var  slope2 = -1 * ( (x3 - x2) / (y3 - y2) );
+        var  yintercept2 = midy2 - ( slope2 * midx2 );
+
+        // If the slopes are the same, it means they are parallel and these
+        // three points don't form a triangle
+        if ( slope1 == slope2 ) {
+            throw "Given points don't form a triangle: " +
+                a + ", " + b + ", " + c;
+        }
+
+        var centerx = (yintercept2 - yintercept1) / (slope1 - slope2);
+        var centery = (slope1 * centerx) + yintercept1;
+
+        var radius = ( (centerx - x1) * (centerx - x1) ) +
+            ( (centery - y1) * (centery - y1) );
+
+        var distance = ( (centerx - x4) * (centerx - x4) ) +
+            ( (centery - y4) * (centery - y4) );
+
+        return distance < radius;
     }
 
 }
-
 
 
