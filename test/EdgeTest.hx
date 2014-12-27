@@ -12,31 +12,31 @@ class EdgeTest {
 
     @Test public function testEquality():Void {
         Assert.isTrue(
-            new Edge( p(1, 2), p(5, 5) ).equals(
-                new Edge( p(1, 2), p(5, 5) ) ) );
+            new Edge<RealPoint>( p(1, 2), p(5, 5) ).equals(
+                new Edge<RealPoint>( p(1, 2), p(5, 5) ) ) );
 
         Assert.isTrue(
-            new Edge( p(5, 5), p(1, 2) ).equals(
-                new Edge( p(1, 2), p(5, 5) ) ) );
+            new Edge<RealPoint>( p(5, 5), p(1, 2) ).equals(
+                new Edge<RealPoint>( p(1, 2), p(5, 5) ) ) );
 
         Assert.isFalse(
-            new Edge( p(1, 2), p(5, 5) ).equals(
-                new Edge( p(1, 20), p(5, 5) ) ) );
+            new Edge<RealPoint>( p(1, 2), p(5, 5) ).equals(
+                new Edge<RealPoint>( p(1, 20), p(5, 5) ) ) );
 
         Assert.isFalse(
-            new Edge( p(5, 5), p(1, 2) ).equals(
-                new Edge( p(1, 20), p(5, 5) ) ) );
+            new Edge<RealPoint>( p(5, 5), p(1, 2) ).equals(
+                new Edge<RealPoint>( p(1, 20), p(5, 5) ) ) );
     }
 
     @Test public function testHashCode():Void {
         Assert.areEqual(
-            new Edge( p(1, 2), p(5, 5) ).hashCode(),
-            new Edge( p(1, 2), p(5, 5) ).hashCode()
+            new Edge<RealPoint>( p(1, 2), p(5, 5) ).hashCode(),
+            new Edge<RealPoint>( p(1, 2), p(5, 5) ).hashCode()
         );
 
         Assert.areNotEqual(
-            new Edge( p(1, 2), p(5, 5) ).hashCode(),
-            new Edge( p(1, 2), p(5, 50) ).hashCode()
+            new Edge<RealPoint>( p(1, 2), p(5, 5) ).hashCode(),
+            new Edge<RealPoint>( p(1, 2), p(5, 50) ).hashCode()
         );
     }
 

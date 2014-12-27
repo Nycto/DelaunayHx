@@ -1,22 +1,22 @@
 package delaunay;
 
 /** An edge between two points */
-class Edge {
+class Edge<T: DhxPoint> {
 
     /** The x coordinate */
-    public var one(default, null): DhxPoint;
+    public var one(default, null): T;
 
     /** The y coordinate */
-    public var two(default, null): DhxPoint;
+    public var two(default, null): T;
 
     /** Constructor */
-    public inline function new ( one: DhxPoint, two: DhxPoint ) {
+    public inline function new ( one: T, two: T ) {
         this.one = one;
         this.two = two;
     }
 
     /** Determines whether this point equals another */
-    public inline function equals( other: Edge ): Bool {
+    public inline function equals( other: Edge<T> ): Bool {
         if ( RealPoint.equal(one, other.one) ) {
             return RealPoint.equal(two, other.two);
         }
