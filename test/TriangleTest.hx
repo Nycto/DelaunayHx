@@ -10,6 +10,25 @@ class TriangleTest {
         return new RealPoint(x, y);
     }
 
+    @Test public function testIsTriangle():Void {
+
+        Assert.isFalse(Triangle.isTriangle(
+            p(0, 0), p(5, 5), p(10, 10)
+        ));
+
+        Assert.isFalse(Triangle.isTriangle(
+            p(0, 0), p(0, 5), p(0, 10)
+        ));
+
+        Assert.isFalse(Triangle.isTriangle(
+            p(0, 0), p(5, 0), p(10, 0)
+        ));
+
+        Assert.isTrue(Triangle.isTriangle(
+            p(0, 0), p(5, 10), p(10, 0)
+        ));
+    }
+
     @Test public function testIsPointInCircumcircle():Void {
 
         // Points in a line can't form a triangle

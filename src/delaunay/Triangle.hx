@@ -9,6 +9,28 @@ class Triangle {
     private function new () {}
 
     /**
+     * Determines whether three points form a triangle. The only way this
+     * returns false is if they form a line
+     * @param a A corner of the triangle
+     * @param b A corner of the triangle
+     * @param c A corner of the triangle
+     */
+    public static inline function isTriangle(
+        a: DhxPoint, b: DhxPoint, c: DhxPoint
+    ): Bool {
+        var x1 = a.getX();
+        var y1 = a.getY();
+
+        var x2 = b.getX();
+        var y2 = b.getY();
+
+        var x3 = c.getX();
+        var y3 = c.getY();
+
+        return (y2 - y1) * (x3 - x2) != (y3 - y2) * (x2 - x1);
+    }
+
+    /**
      * Determines whether a point is inside the circumcircle of a triangle
      * @param a A corner of the triangle
      * @param b A corner of the triangle
