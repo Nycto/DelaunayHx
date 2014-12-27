@@ -31,35 +31,40 @@ class Triangle {
         var x4 = d.getX();
         var y4 = d.getY();
 
-        var midx1 = (x1 + x2) / 2;
-        var midy1 = (y1 + y2) / 2;
+        // For the line perpendicular to the first two points, calculate `m`
+        // and `b` in the equation `y = mx + b`
         var slope1 = -1 * ( (x2 - x1) / (y2 - y1) );
-        var yintercept1 = midy1 - ( slope1 * midx1 );
+        var yintercept1 = ( -1 * slope1 * (x1 + x2) + y1 + y2 ) / 2;
 
-        var  midx2 = (x2 + x3) / 2;
-        var  midy2 = (y2 + y3) / 2;
-        var  slope2 = -1 * ( (x3 - x2) / (y3 - y2) );
-        var  yintercept2 = midy2 - ( slope2 * midx2 );
+        // For the line perpendicular to the second and third points, calculate
+        // `m` and `b` in the equation `y = mx + b`
+        var slope2 = -1 * ( (x3 - x2) / (y3 - y2) );
+        var yintercept2 = ( -1 * slope2 * (x2 + x3) + y2 + y3 ) / 2;
 
-        // If the slopes are the same, it means they are parallel and these
+        // If the slopes are the same, it means the lines are parallel and these
         // three points don't form a triangle
         if ( slope1 == slope2 ) {
             throw "Given points don't form a triangle: " +
                 a + ", " + b + ", " + c;
         }
 
+        // (centerx, centery) is the centroid of the circumcircle
         var centerx = (yintercept2 - yintercept1) / (slope1 - slope2);
         var centery = (slope1 * centerx) + yintercept1;
 
+        // The radius of the circumcircle
         var radius = ( (centerx - x1) * (centerx - x1) ) +
             ( (centery - y1) * (centery - y1) );
 
+        // The distance of the point being checked from the centroid
         var distance = ( (centerx - x4) * (centerx - x4) ) +
             ( (centery - y4) * (centery - y4) );
 
+        // If the distance is less than the radius, the point is in the circle.
+        // Note that we consider points on the circumference to be outside
+        // of the circumcircle
         return distance < radius;
     }
-
 }
 
 
