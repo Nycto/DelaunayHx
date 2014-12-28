@@ -15,7 +15,7 @@ class Triangulate<T: DhxPoint> {
 
     /** Returns a list of edges when there are only three points. */
     private static function getTrinary<T: DhxPoint>(
-        points: Array<T>
+        points: Points<T>
     ): Array<Edge<T>> {
         var a = points[0];
         var b = points[1];
@@ -31,9 +31,9 @@ class Triangulate<T: DhxPoint> {
 
     /** Executes a callback for each determined edge */
     public function getEdges(): Array<Edge<T>> {
-        var nodes = DivideAndConquer.sort( DivideAndConquer.dedupe(points) );
+        var nodes = new Points(points);
 
-        return switch ( nodes.length ) {
+        return switch ( nodes.length() ) {
             case 0: [];
             case 1: [];
             case 2: [ new Edge<T>(nodes[0], nodes[1]) ];

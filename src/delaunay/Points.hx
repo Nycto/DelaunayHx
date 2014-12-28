@@ -1,12 +1,9 @@
 package delaunay;
 
 /**
- * A static set of operations
+ * A phantom type that ensures a list of points is unique and sorted
  */
-class DivideAndConquer {
-
-    /** A static class, so a private constructor */
-    private function new () {}
+abstract Points<T: DhxPoint>( Array<T> ) {
 
     /** Removes duplicates from a list of points */
     public static function dedupe<T: DhxPoint>( points: Array<T> ): Array<T> {
@@ -44,6 +41,31 @@ class DivideAndConquer {
         return points;
     }
 
-}
+    /** Constructor */
+    public inline function new ( points: Array<T> ) {
+        this = sort( dedupe(points) );
+    }
 
+    /** Convert from an array */
+    @:from static public inline function fromArray<T: DhxPoint> (
+        points: Array<T>
+    ): Points<T> {
+        return new Points( points );
+    }
+
+    /** Convert this list a string */
+    public inline function toString(): String {
+        return this.toString();
+    }
+
+    /** Array length */
+    public inline function length(): Int {
+        return this.length;
+    }
+
+    /** Array accessor */
+    @:arrayAccess public inline function get( index: Int ): T {
+        return this[index];
+    }
+}
 
