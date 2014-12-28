@@ -57,12 +57,12 @@ class DivideAndConquer {
 
         // If there are candidates on the left but not the right
         else if ( rightCandidate == null ) {
-            left.add( leftCandidate, baseRight );
+            mergeWithBase( left, right, leftCandidate, baseRight );
         }
 
         // If there are candidates on the right but not the left
         else if ( leftCandidate == null ) {
-            left.add( baseLeft, rightCandidate );
+            mergeWithBase( left, right, baseLeft, rightCandidate );
         }
 
         // If the right candidate is within the circumcircle of the left
