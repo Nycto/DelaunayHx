@@ -58,6 +58,9 @@ class Helper {
             callback();
             Assert.fail("Expected an exception, but none was thrown", info);
         }
+        catch ( err: massive.munit.AssertionException ) {
+            throw err;
+        }
         catch ( err: Dynamic ) {}
     }
 }
