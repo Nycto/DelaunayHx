@@ -63,5 +63,30 @@ class Helper {
         }
         catch ( err: Dynamic ) {}
     }
+
+
+    /** Determines whether this point equals another */
+    static public function iteratorsEqual<T: Equals>(
+        expected: Iterator<T>,
+        actual: Iterator<T>,
+        ?info: PosInfos
+    ): Void {
+        while (true) {
+            var expHasNext = expected.hasNext();
+            var actHasNext = actual.hasNext();
+
+            if ( expHasNext && !actHasNext ) {
+                Assert.fail("Iterator ran out of values early", info);
+            }
+            else if ( !expHasNext && actHasNext ) {
+                Assert.fail("Iterator has too many values", info);
+            }
+            else if ( !expHasNext && !expHasNext ) {
+                return;
+            }
+
+            equals( expected.next(), actual.next() );
+        }
+    }
 }
 
