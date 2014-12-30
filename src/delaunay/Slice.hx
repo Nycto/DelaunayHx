@@ -68,4 +68,27 @@ abstract Slice<T: DhxPoint> ( SliceData<T> ) from SliceData<T> {
         }
         return output;
     }
+
+    /** Returns whether this slice can be split */
+    public inline function canSplit(): Bool {
+        return length() >= 4;
+    }
+
+    /** Divides this slice into two and returns the left side */
+    public inline function splitLeft (): Slice<T> {
+        if ( !canSplit() ) {
+            throw "Slice is too small to split";
+        }
+        return slice(0, Math.ceil(length() / 2));
+    }
+
+    /** Divides this slice into two and returns the left side */
+    public inline function splitRight (): Slice<T> {
+        if ( !canSplit() ) {
+            throw "Slice is too small to split";
+        }
+        var halfway = length() / 2;
+        return slice( Math.ceil(halfway), Math.floor(halfway) );
+    }
 }
+

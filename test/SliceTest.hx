@@ -54,5 +54,44 @@ class SliceTest {
         Helper.arrayEquals([ p(1, 2), p(2, 1), p(5, 2) ], output);
     }
 
+    @Test public function testCantSplit():Void {
+        var slice: Slice<RealPoint> = [ p(0, 0), p(1, 2), p(2, 1) ];
+        Assert.isFalse( slice.canSplit() );
+        Helper.throws(function() { slice.splitLeft(); });
+        Helper.throws(function() { slice.splitRight(); });
+    }
+
+    @Test public function testSplitEven():Void {
+        var slice: Slice<RealPoint> = [ p(0, 0), p(1, 2), p(2, 1), p(5, 2) ];
+        Assert.isTrue( slice.canSplit() );
+
+        Helper.arrayEquals(
+            [ p(0, 0), p(1, 2) ],
+            slice.splitLeft().toArray()
+        );
+
+        Helper.arrayEquals(
+            [ p(2, 1), p(5, 2) ],
+            slice.splitRight().toArray()
+        );
+    }
+
+    @Test public function testSplitOdd():Void {
+        var slice: Slice<RealPoint> =
+            [ p(0, 0), p(1, 2), p(2, 1), p(5, 2), p(8, 4) ];
+
+        Assert.isTrue( slice.canSplit() );
+
+        Helper.arrayEquals(
+            [ p(0, 0), p(1, 2), p(2, 1) ],
+            slice.splitLeft().toArray()
+        );
+
+        Helper.arrayEquals(
+            [ p(5, 2), p(8, 4) ],
+            slice.splitRight().toArray()
+        );
+    }
+
 }
 
