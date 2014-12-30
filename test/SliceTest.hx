@@ -35,19 +35,19 @@ class SliceTest {
     }
 
     @Test public function testSliceOutOfRange():Void {
-        var points: Points<RealPoint> = [ p(5, 2), p(2, 1), p(1, 2), p(0, 0) ];
+        var slice: Slice<RealPoint> = [ p(5, 2), p(2, 1), p(1, 2), p(0, 0) ];
 
-        Helper.throws(function() { points.slice().slice(-1, 3); });
-        Helper.throws(function() { points.slice().slice(4, 0); });
-        Helper.throws(function() { points.slice().slice(2, 3); });
+        Helper.throws(function() { slice.slice(-1, 3); });
+        Helper.throws(function() { slice.slice(4, 0); });
+        Helper.throws(function() { slice.slice(2, 3); });
     }
 
     @Test public function testSliceIteration():Void {
-        var points: Points<RealPoint> = [ p(0, 0), p(1, 2), p(2, 1), p(5, 2) ];
+        var slice: Slice<RealPoint> = [ p(0, 0), p(1, 2), p(2, 1), p(5, 2) ];
 
         var output = new Array<RealPoint>();
 
-        for ( point in points.slice().slice(1, 3) ) {
+        for ( point in slice.slice(1, 3) ) {
             output.push(point);
         }
 

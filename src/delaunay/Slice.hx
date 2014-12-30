@@ -15,6 +15,13 @@ class SliceData<T: DhxPoint> {
 /** The interface representing a slice of a Point list */
 abstract Slice<T: DhxPoint> ( SliceData<T> ) from SliceData<T> {
 
+    /** Convert from an array */
+    @:from static public inline function fromArray<T: DhxPoint> (
+        points: Array<T>
+    ): Slice<T> {
+        return new Points(points).slice();
+    }
+
     /** Array length */
     public inline function length(): Int {
         return this.end - this.start;
