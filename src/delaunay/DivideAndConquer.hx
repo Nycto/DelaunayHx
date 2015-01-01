@@ -138,30 +138,29 @@ class DivideAndConquer {
         }
     }
 
-    /** Returns the base point for the left group */
-    public static function chooseBaseLeft<T: DhxPoint>(
-        left: EdgeGroup<T>, right: T
-    ): T {
-        return chooseBase(left, Clockwise, left.bottomRight(), right);
-    }
+    /** Chooses base points and invokes a function with them */
+    public static function chooseBases<T: DhxPoint>(
+        left: EdgeGroup<T>, right: EdgeGroup<T>, callback: T -> T -> Void
+    ): Void {
+        var leftBottomRight = left.bottomRight();
 
-    /** Returns the base point for the right group */
-    public static function chooseBaseRight<T: DhxPoint>(
-        left: T, right: EdgeGroup<T>
-    ): T {
-        return chooseBase(right, CounterClockwise, right.bottomLeft(), left);
+        var baseRight = chooseBase(
+            right, CounterClockwise, right.bottomLeft(), leftBottomRight);
+
+        var baseLeft = chooseBase(
+            left, Clockwise, leftBottomRight, baseRight);
+
+        callback( baseLeft, baseRight );
     }
 
     /** Merges together sets of edges */
     public static function merge<T: DhxPoint>(
         left: EdgeGroup<T>, right: EdgeGroup<T>
     ): EdgeGroup<T> {
-        var baseRight = chooseBaseRight(left.bottomRight(), right);
-        var baseLeft = chooseBaseLeft(left, baseRight);
-
-        mergeWithBase(left, right, baseLeft, baseRight);
-        left.addAll( right );
-
+        chooseBases( left, right, function (baseLeft, baseRight) {
+            mergeWithBase(left, right, baseLeft, baseRight);
+            left.addAll(right);
+        });
         return left;
     }
 }

@@ -130,126 +130,81 @@ class DivideAndConquerTest {
         );
     }
 
-    @Test public function testChooseBaseLeft():Void {
+    public static function assertPoints( left: RealPoint, right: RealPoint ) {
+        return function ( actualLeft: RealPoint, actualRight: RealPoint ) {
+            Helper.equals( left, actualLeft );
+            Helper.equals( right, actualRight );
+        }
+    }
+
+    @Test public function testChooseBases():Void {
+
         // Even ground
-        Helper.equals(
-            p(2, 2),
-            DivideAndConquer.chooseBaseLeft(
-                new EdgeGroup<RealPoint>().add( p(0, 2), p(2, 2) ),
-                p(4, 2)
-            )
+        DivideAndConquer.chooseBases(
+            new EdgeGroup<RealPoint>().add( p(0, 0), p(2, 0) ),
+            new EdgeGroup<RealPoint>().add( p(4, 0), p(6, 0) ),
+            assertPoints( p(2, 0), p(4, 0) )
         );
 
         // The left side is slightly higher than the right side
-        Helper.equals(
-            p(0, 4),
-            DivideAndConquer.chooseBaseLeft(
-                new EdgeGroup<RealPoint>()
-                    .add( p(0, 4), p(4, 3) )
-                    .add( p(7, 2), p(5, 4) )
-                    .add( p(4, 3), p(7, 2) ),
-                p(8, 0)
-            )
+        DivideAndConquer.chooseBases(
+            new EdgeGroup<RealPoint>().add( p(0, 2), p(2, 2) ),
+            new EdgeGroup<RealPoint>().add( p(4, 0), p(6, 0) ),
+            assertPoints( p(0, 2), p(4, 0) )
         );
 
         // Right is slightly higher than left
-        Helper.equals(
-            p(1, 0),
-            DivideAndConquer.chooseBaseLeft(
-                new EdgeGroup<RealPoint>()
-                    .add( p(0, 0), p(1, 0) ),
-                p(4, 4)
-            )
+        DivideAndConquer.chooseBases(
+            new EdgeGroup<RealPoint>().add( p(0, 0), p(2, 0) ),
+            new EdgeGroup<RealPoint>().add( p(4, 4), p(6, 4) ),
+            assertPoints( p(2, 0), p(6, 4) )
         );
 
-        // Cut off when the slope goes in the wrong direction
-        Helper.equals(
-            p(1, 2),
-            DivideAndConquer.chooseBaseLeft(
-                new EdgeGroup<RealPoint>()
-                    .add( p(0, 4), p(1, 2) )
-                    .add( p(1, 2), p(5, 1) ),
-                p(6, 0)
-            )
+        // Left slope continues in a concave direction
+        DivideAndConquer.chooseBases(
+            new EdgeGroup<RealPoint>()
+                .add( p(0, 4), p(1, 2) )
+                .add( p(1, 2), p(5, 1) ),
+            new EdgeGroup<RealPoint>().add( p(6, 0), p(8, 0) ),
+            assertPoints( p(1, 2), p(6, 0) )
+        );
+
+        // Right slope continues in a concave direction
+        DivideAndConquer.chooseBases(
+            new EdgeGroup<RealPoint>().add( p(0, 0), p(2, 0) ),
+            new EdgeGroup<RealPoint>()
+                .add( p(3, 1), p(7, 2) )
+                .add( p(7, 2), p(8, 4) ),
+            assertPoints( p(2, 0), p(7, 2) )
         );
 
         // Starting point is on same slope with right point
-        Helper.equals(
-            p(2, 2),
-            DivideAndConquer.chooseBaseLeft(
-                new EdgeGroup<RealPoint>()
-                    .add( p(0, 0), p(1, 1) )
-                    .add( p(1, 1), p(2, 2) )
-                    .add( p(0, 0), p(-1, 1) ),
-                p(3, 3)
-            )
+        DivideAndConquer.chooseBases(
+            new EdgeGroup<RealPoint>()
+                .add( p(0, 0), p(1, 1) )
+                .add( p(1, 1), p(2, 2) ),
+            new EdgeGroup<RealPoint>()
+                .add( p(3, 3), p(4, 4) )
+                .add( p(4, 4), p(5, 5) ),
+            assertPoints( p(2, 2), p(3, 3) )
         );
 
-        // Vertical starting lines
-        Helper.equals(
-            p(0, 2),
-            DivideAndConquer.chooseBaseLeft(
-                new EdgeGroup<RealPoint>()
-                    .add( p(0, 0), p(0, 1) )
-                    .add( p(0, 1), p(0, 2) ),
-                p(0, 5)
-            )
-        );
-    }
-
-    @Test public function testChooseBaseRight():Void {
-
-        // Even ground
-        Helper.equals(
-            p(0, 0),
-            DivideAndConquer.chooseBaseRight(
-                p(-5, 0),
-                new EdgeGroup<RealPoint>()
-                    .add( p(0, 0), p(1, 0) )
-                    .add( p(1, 0), p(2, 0) )
-            )
+        // Vertical join
+        DivideAndConquer.chooseBases(
+            new EdgeGroup<RealPoint>()
+                .add( p(0, 0), p(0, 1) )
+                .add( p(0, 1), p(0, 2) ),
+            new EdgeGroup<RealPoint>()
+                .add( p(0, 3), p(0, 4) )
+                .add( p(0, 4), p(0, 5) ),
+            assertPoints( p(0, 2), p(0, 3) )
         );
 
-        // Left higher than right
-        Helper.equals(
-            p(0, 0),
-            DivideAndConquer.chooseBaseRight(
-                p(-2, 5),
-                new EdgeGroup<RealPoint>()
-                    .add( p(0, 0), p(1, 0) )
-                    .add( p(1, 0), p(2, 0) )
-            )
-        );
-
-        // Right higher than left
-        Helper.equals(
-            p(2, 0),
-            DivideAndConquer.chooseBaseRight(
-                p(-2, -5),
-                new EdgeGroup<RealPoint>()
-                    .add( p(0, 0), p(1, 0) )
-                    .add( p(1, 0), p(2, 0) )
-            )
-        );
-
-        // Stop with the slop changes unfavorably
-        Helper.equals(
-            p(5, 2),
-            DivideAndConquer.chooseBaseRight(
-                p(0, 0),
-                new EdgeGroup<RealPoint>()
-                    .add( p(1, 1), p(5, 2) )
-                    .add( p(5, 2), p(6, 4) )
-            )
-        );
-
-        // Vertical starting edge
-        Helper.equals(
-            p(5, 5),
-            DivideAndConquer.chooseBaseRight(
-                p(0, 0),
-                new EdgeGroup<RealPoint>().add( p(0, 5), p(5, 5) )
-            )
+        // Vertical left side with horizontal right side
+        DivideAndConquer.chooseBases(
+            new EdgeGroup<RealPoint>().add( p(0, 0), p(0, 1) ),
+            new EdgeGroup<RealPoint>().add( p(0, 2), p(2, 2) ),
+            assertPoints( p(0, 0), p(2, 2) )
         );
     }
 }
