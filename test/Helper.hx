@@ -1,5 +1,10 @@
 package;
 
+import delaunay.Edge;
+import delaunay.RealPoint;
+import delaunay.Set;
+import delaunay.Triangulate;
+
 import massive.munit.Assert;
 import haxe.PosInfos;
 
@@ -160,6 +165,58 @@ class Helper {
             equals = function (a, b) { return compare(a, b) == 0; }
         }
         arrayEqualsUsing( expected, actual, equals, info );
+    }
+
+    /** Asserts that a set of edges triangulates properly */
+    public static function assertEdges (
+        edges: Array<Edge<RealPoint>>,
+        ?points: Array<RealPoint>,
+        ?info: PosInfos
+    ): Void {
+        if ( points == null ) {
+            points = new Array<RealPoint>();
+            for ( edge in edges ) {
+                points.push( edge.one );
+                points.push( edge.two );
+            }
+        }
+
+        var expected = new Set<Edge<RealPoint>>( Edge.hash, Edge.equal );
+        Lambda.iter( edges, expected.add );
+
+        var actual = new Set<Edge<RealPoint>>( Edge.hash, Edge.equal );
+        Lambda.iter( new Triangulate(points).getEdges(), actual.add );
+
+        var extra = Lambda.filter( actual, function ( edge ) {
+            return !expected.contains(edge);
+        });
+
+        var missing = Lambda.filter( expected, function ( edge ) {
+            return !actual.contains(edge);
+        });
+
+        if ( missing.length > 0 && extra.length == 0 ) {
+            Assert.fail( "Missing edges: " + missing, info );
+        }
+        else if ( extra.length > 0 && missing.length == 0 ) {
+            Assert.fail( "Extra edges: " + extra, info );
+        }
+        else if ( extra.length > 0 && missing.length > 0 ) {
+            Assert.fail(
+                "Missing edges: " + missing +
+                " and extra edges: " + extra, info );
+        }
+    }
+
+    /** Flattens a list of edges */
+    public static function flatten ( list: Array<Array<Edge<RealPoint>>> ) {
+        return Lambda.fold(
+            list,
+            function ( edges, accum: Array<Edge<RealPoint>> ) {
+                return accum.concat(edges);
+            },
+            []
+        );
     }
 }
 
