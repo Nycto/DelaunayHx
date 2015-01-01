@@ -11,19 +11,22 @@ class Edge<T: DhxPoint> {
 
     /** Constructor */
     public inline function new ( one: T, two: T ) {
-        this.one = one;
-        this.two = two;
+        // The points of an edge should always be ordered from left to right,
+        // bottom to top
+        if ( Points.compare(one, two) <= 0 ) {
+            this.one = one;
+            this.two = two;
+        }
+        else {
+            this.one = two;
+            this.two = one;
+        }
     }
 
     /** Determines whether this point equals another */
     public inline function equals( other: Edge<T> ): Bool {
-        if ( RealPoint.equal(one, other.one) ) {
-            return RealPoint.equal(two, other.two);
-        }
-        else {
-            return RealPoint.equal(two, other.one) &&
-                RealPoint.equal(one, other.two);
-        }
+        return RealPoint.equal(one, other.one) &&
+            RealPoint.equal(two, other.two);
     }
 
     /** Converts this point to a readable string */

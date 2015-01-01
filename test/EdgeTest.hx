@@ -10,6 +10,14 @@ class EdgeTest {
         return new RealPoint(x, y);
     }
 
+    @Test public function testOrdering():Void {
+        Helper.equals( new Edge(p(1, 2), p(5, 5)).one, p(1, 2) );
+        Helper.equals( new Edge(p(1, 2), p(5, 5)).two, p(5, 5) );
+
+        Helper.equals( new Edge(p(5, 5), p(1, 2)).one, p(1, 2) );
+        Helper.equals( new Edge(p(5, 5), p(1, 2)).two, p(5, 5) );
+    }
+
     @Test public function testEquality():Void {
         Assert.isTrue(
             new Edge<RealPoint>( p(1, 2), p(5, 5) ).equals(

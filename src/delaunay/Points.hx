@@ -23,23 +23,28 @@ abstract Points<T: DhxPoint>( Array<T> ) {
         return output;
     }
 
+    /**
+     * Compares two points to sort them left to right, bottom to top
+     */
+    public static function compare<T: DhxPoint>( a: T, b: T ): Int {
+        var aX = a.getX();
+        var bX = b.getX();
+        if ( aX < bX ) {
+            return -1;
+        }
+        else if ( aX > bX ) {
+            return 1;
+        }
+        else {
+            var aY = a.getY();
+            var bY = b.getY();
+            return aY < bY ? -1 : (aY > bY ? 1 : 0);
+        }
+    }
+
     /** Performs an in-place sort of the points */
     public static function sort<T: DhxPoint>( points: Array<T> ): Array<T> {
-        points.sort(function (a, b): Int {
-            var aX = a.getX();
-            var bX = b.getX();
-            if ( aX < bX ) {
-                return -1;
-            }
-            else if ( aX > bX ) {
-                return 1;
-            }
-            else {
-                var aY = a.getY();
-                var bY = b.getY();
-                return aY < bY ? -1 : (aY > bY ? 1 : 0);
-            }
-        });
+        points.sort( compare );
         return points;
     }
 
