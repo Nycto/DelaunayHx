@@ -10,9 +10,10 @@ typedef Equals = {
 class Helper {
 
     /** Determines whether this point equals another */
-    static public function arrayEquals<T: Equals>(
+    static public function arrayEqualsUsing<T>(
         expected: Array<T>,
         actual: Array<T>,
+        equals: T -> T -> Bool,
         ?info: PosInfos
     ): Void {
         if ( expected.length != actual.length ) {
@@ -25,7 +26,7 @@ class Helper {
         }
 
         for (i in 0...expected.length) {
-            if ( !expected[i].equals( actual[i] ) ) {
+            if ( !equals(expected[i], actual[i]) ) {
                 Assert.fail(
                     "Expected values to be the same at offset: " + i + ". " +
                     "Expected: " + expected + ", " +
@@ -34,6 +35,19 @@ class Helper {
                 );
             }
         }
+    }
+
+    /** Determines whether this point equals another */
+    static public function arrayEquals<T: Equals>(
+        expected: Array<T>,
+        actual: Array<T>,
+        ?info: PosInfos
+    ): Void {
+        arrayEqualsUsing(
+            expected, actual,
+            function (a, b) { return a.equals(b); },
+            info
+        );
     }
 
     /** Determines whether this point equals another */

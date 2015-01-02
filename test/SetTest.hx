@@ -41,5 +41,29 @@ class SetTest {
         Assert.isTrue( hashset.contains({ hash: 20, value: 90 }) );
     }
 
+    @Test public function testIteration():Void {
+        var hashset = new Set<{ hash: Int, value: Int }>(
+            function ( obj ) { return obj.hash; },
+            function ( a, b ) { return a.value == b.value; }
+        );
+
+        hashset.add({ hash: 20, value: 50 });
+        hashset.add({ hash: 20, value: 90 });
+        hashset.add({ hash: 40, value: 130 });
+        hashset.add({ hash: 20, value: 50 });
+
+        var array = hashset.toArray();
+        array.sort(function (a, b) { return a.value < b.value ? -1 : 1; });
+
+        Helper.arrayEqualsUsing(
+            [
+                { hash: 20, value: 50 },
+                { hash: 20, value: 90 },
+                { hash: 40, value: 130 }
+            ],
+            array,
+            function (a, b) { return a.value == b.value; }
+        );
+    }
 }
 
