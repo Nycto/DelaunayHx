@@ -23,6 +23,13 @@ class Edge<T: DhxPoint> {
         }
     }
 
+    /** Compares two edges for sorting */
+    public static function compare<T: DhxPoint>(a: Edge<T>, b: Edge<T>): Int {
+        return Points.compare(a.one, b.one) != 0
+            ? Points.compare(a.one, b.one)
+            : Points.compare(a.two, b.two);
+    }
+
     /** Determines whether this point equals another */
     public inline function equals( other: Edge<T> ): Bool {
         return RealPoint.equal(one, other.one) &&

@@ -52,16 +52,14 @@ class SetTest {
         hashset.add({ hash: 40, value: 130 });
         hashset.add({ hash: 20, value: 50 });
 
-        var array = hashset.toArray();
-        array.sort(function (a, b) { return a.value < b.value ? -1 : 1; });
-
-        Helper.arrayEqualsUsing(
+        Helper.unsortedArrayEqualsUsing(
             [
                 { hash: 20, value: 50 },
                 { hash: 20, value: 90 },
                 { hash: 40, value: 130 }
             ],
-            array,
+            hashset.toArray(),
+            function (a, b) { return a.value < b.value ? -1 : 1; },
             function (a, b) { return a.value == b.value; }
         );
     }

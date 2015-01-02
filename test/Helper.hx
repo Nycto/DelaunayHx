@@ -124,5 +124,30 @@ class Helper {
             info
         );
     }
+
+    /** Determines whether this point equals another */
+    static public function unsortedArrayEquals<T: Equals>(
+        expected: Array<T>,
+        actual: Array<T>,
+        compare: T -> T -> Int,
+        ?info: PosInfos
+    ): Void {
+        expected.sort( compare );
+        actual.sort( compare );
+        arrayEquals( expected, actual, info );
+    }
+
+    /** Determines whether this point equals another */
+    static public function unsortedArrayEqualsUsing<T>(
+        expected: Array<T>,
+        actual: Array<T>,
+        compare: T -> T -> Int,
+        equals: T -> T -> Bool,
+        ?info: PosInfos
+    ): Void {
+        expected.sort( compare );
+        actual.sort( compare );
+        arrayEqualsUsing( expected, actual, equals, info );
+    }
 }
 

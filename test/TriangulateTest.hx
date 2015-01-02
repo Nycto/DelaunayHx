@@ -1,6 +1,7 @@
 package;
 
 import delaunay.Triangulate;
+import delaunay.DhxPoint;
 import delaunay.RealPoint;
 import delaunay.Edge;
 import massive.munit.Assert;
@@ -31,7 +32,13 @@ class TriangulateTest {
                 points.push( edge.two );
             }
         }
-        Helper.arrayEquals( edges, new Triangulate(points).getEdges(), info );
+
+        Helper.unsortedArrayEquals(
+            edges,
+            new Triangulate(points).getEdges(),
+            Edge.compare,
+            info
+        );
     }
 
     @Test public function testEmptyPoints():Void {
