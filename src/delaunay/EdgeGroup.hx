@@ -11,6 +11,9 @@ class EdgeGroup<T: DhxPoint> {
         function ( a, b ) { return a.equals(b); }
     );
 
+    /** Tracks the bottom-right point in this group of edges */
+    public var bottom(default, null): Null<T> = null;
+
     /** Creates a new edge group from a list of edges */
     public function new ( edges: Array<Edge<T>> ) {
         for ( edge in edges ) {
@@ -18,11 +21,35 @@ class EdgeGroup<T: DhxPoint> {
         }
     }
 
+    /**
+     * Compares a point to the bottom-right most point already tracked. Replaces
+     * that point with this one if this is further down right.
+     */
+    private function potentialBottomRight( point: T ) {
+        if (
+            bottom == null ||
+            point.getY() < bottom.getY() ||
+            ( point.getY() == bottom.getY() && point.getX() > bottom.getX() )
+        ) {
+            bottom = point;
+        }
+    }
+
     /** Adds an edge */
     public inline function add ( edge: Edge<T> ) {
         if ( !edges.contains(edge) ) {
             edges.add( edge );
+            potentialBottomRight( edge.one );
+            potentialBottomRight( edge.two );
         }
+    }
+
+    /** Picks the bottom right-most node in this group */
+    public inline function bottomRight (): T {
+        if ( bottom == null ) {
+            throw "EdgeGroup does not have any points in it";
+        }
+        return bottom;
     }
 }
 
