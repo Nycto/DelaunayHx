@@ -41,6 +41,31 @@ class SetTest {
         Assert.isTrue( hashset.contains({ hash: 20, value: 90 }) );
     }
 
+    @Test public function testRemove():Void {
+        var hashset = new Set<{ hash: Int, value: Int }>(
+            function ( obj ) { return obj.hash; },
+            function ( a, b ) { return a.value == b.value; }
+        );
+
+        hashset.add({ hash: 20, value: 50 });
+        hashset.add({ hash: 20, value: 90 });
+        hashset.add({ hash: 40, value: 130 });
+
+        Assert.isTrue( hashset.contains({ hash: 20, value: 50 }) );
+        Assert.isTrue( hashset.contains({ hash: 20, value: 90 }) );
+        Assert.isTrue( hashset.contains({ hash: 40, value: 130 }) );
+
+        hashset.remove({ hash: 20, value: 50 });
+        Assert.isFalse( hashset.contains({ hash: 20, value: 50 }) );
+        Assert.isTrue( hashset.contains({ hash: 20, value: 90 }) );
+        Assert.isTrue( hashset.contains({ hash: 40, value: 130 }) );
+
+        hashset.remove({ hash: 40, value: 130 });
+        Assert.isFalse( hashset.contains({ hash: 20, value: 50 }) );
+        Assert.isTrue( hashset.contains({ hash: 20, value: 90 }) );
+        Assert.isFalse( hashset.contains({ hash: 40, value: 130 }) );
+    }
+
     @Test public function testIteration():Void {
         var hashset = new Set<{ hash: Int, value: Int }>(
             function ( obj ) { return obj.hash; },

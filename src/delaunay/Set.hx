@@ -58,6 +58,19 @@ class Set<K> {
         return existing == null ? false : listContains(existing, value);
     }
 
+    /** Removes a value from this set */
+    public inline function remove( value: K ): Void {
+        var existing = objs.get(this.hash(value));
+        if ( existing != null ) {
+            for ( element in existing ) {
+                if ( this.equal(value, element) ) {
+                    existing.remove(element);
+                    break;
+                }
+            }
+        }
+    }
+
     /** Generates an iterator */
     public function iterator(): Iterator<K> {
         return new SetIterator<K>( objs );
