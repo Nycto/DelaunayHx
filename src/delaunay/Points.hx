@@ -8,7 +8,7 @@ import delaunay.Slice;
 abstract Points<T: DhxPoint>( Array<T> ) {
 
     /** Removes duplicates from a list of points */
-    public static function dedupe<T: DhxPoint>( points: Array<T> ): Array<T> {
+    private static function dedupe<T: DhxPoint>( points: Array<T> ): Array<T> {
         var output = new Array<T>();
 
         var seen = new Set<DhxPoint>( RealPoint.hash, RealPoint.equal );
@@ -42,15 +42,10 @@ abstract Points<T: DhxPoint>( Array<T> ) {
         }
     }
 
-    /** Performs an in-place sort of the points */
-    public static function sort<T: DhxPoint>( points: Array<T> ): Array<T> {
-        points.sort( compare );
-        return points;
-    }
-
     /** Constructor */
     public inline function new ( points: Array<T> ) {
-        this = sort( dedupe(points) );
+        this = dedupe(points);
+        this.sort( compare );
     }
 
     /** Convert from an array */
