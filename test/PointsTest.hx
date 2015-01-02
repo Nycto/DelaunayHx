@@ -12,13 +12,11 @@ class PointsTest {
 
     @Test public function testDedupe():Void {
         var points = [ p(1, 2), p(2, 1) ];
-        Helper.arrayEquals( points, Points.dedupe(points) );
+        Helper.iteratesTo( points, new Points(points).iterator() );
 
-        Helper.arrayEquals(
+        Helper.iteratesTo(
             [ p(1, 2), p(2, 1) ],
-            Points.dedupe([
-                p(1, 2), p(2, 1), p(1, 2), p(2, 1)
-            ])
+            new Points([ p(1, 2), p(2, 1), p(1, 2), p(2, 1) ]).iterator()
         );
     }
 
@@ -28,36 +26,32 @@ class PointsTest {
         var p2 = p(1, -41);
         Assert.areEqual( p1.hashCode(), p2.hashCode() );
 
-        Helper.arrayEquals(
+        Helper.iteratesTo(
             [ p1, p2 ],
-            Points.dedupe([ p1, p2, p1, p2 ])
+            new Points([ p1, p2, p1, p2 ]).iterator()
         );
     }
 
     @Test public function testSort():Void {
-        Helper.arrayEquals(
+        Helper.iteratesTo(
             [ p(0, 5), p(3, 3), p(5, 1) ],
-            Points.sort([
-                p(5, 1), p(3, 3), p(0, 5)
-            ])
+            new Points([ p(5, 1), p(3, 3), p(0, 5) ]).iterator()
         );
 
-        Helper.arrayEquals(
+        Helper.iteratesTo(
             [ p(0, 1), p(0, 3), p(0, 5) ],
-            Points.sort([
-                p(0, 5), p(0, 1), p(0, 3)
-            ])
+            new Points([ p(0, 5), p(0, 1), p(0, 3) ]).iterator()
         );
 
-        Helper.arrayEquals(
+        Helper.iteratesTo(
             [
                 p(0, 1), p(1, 0), p(1, 2), p(1, 3), p(2, 1),
                 p(3, 3), p(4, 2), p(5, 0), p(5, 1), p(5, 3)
             ],
-            Points.sort([
+            new Points([
                 p(4, 2), p(5, 3), p(2, 1), p(0, 1), p(5, 0),
                 p(3, 3), p(5, 1), p(1, 2), p(1, 0), p(1, 3)
-            ])
+            ]).iterator()
         );
     }
 

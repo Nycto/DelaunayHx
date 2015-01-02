@@ -88,5 +88,27 @@ class Helper {
             equals( expected.next(), actual.next() );
         }
     }
+
+    /** Determines whether an iterator equals an array */
+    static public function iteratesTo<T: Equals>(
+        expected: Array<T>,
+        actual: Iterator<T>,
+        ?info: PosInfos
+    ): Void {
+        var offset: Int = 0;
+        iteratorsEqual(
+            {
+                hasNext: function (): Bool {
+                    return offset < expected.length;
+                },
+                next: function (): T {
+                    offset++;
+                    return expected[offset - 1];
+                }
+            },
+            actual,
+            info
+        );
+    }
 }
 
