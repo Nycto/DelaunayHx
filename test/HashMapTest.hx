@@ -43,5 +43,35 @@ class HashMapTest {
         Assert.areEqual( "Fifty", hashmap.get({ hash: 20, value: 50 }) );
         Assert.areEqual( "Ninety", hashmap.get({ hash: 20, value: 90 }) );
     }
+
+    @Test public function testRemove():Void {
+        var hashmap = new HashMap<{ hash: Int, value: Int }, String>(
+            function ( obj ) { return obj.hash; },
+            function ( a, b ) { return a.value == b.value; }
+        );
+
+        hashmap.set({ hash: 20, value: 50 }, "Fifty");
+        hashmap.set({ hash: 20, value: 90 }, "Ninety");
+        hashmap.set({ hash: 440, value: 10 }, "Ten");
+
+        Assert.areEqual("Fifty", hashmap.get({ hash: 20, value: 50 }));
+        Assert.areEqual("Ninety", hashmap.get({ hash: 20, value: 90 }));
+        Assert.areEqual("Ten", hashmap.get({ hash: 440, value: 10 }));
+
+        hashmap.unset({ hash: 20, value: 50 });
+        Assert.isNull(hashmap.get({ hash: 20, value: 50 }));
+        Assert.areEqual("Ninety", hashmap.get({ hash: 20, value: 90 }));
+        Assert.areEqual("Ten", hashmap.get({ hash: 440, value: 10 }));
+
+        hashmap.unset({ hash: 440, value: 10 });
+        Assert.isNull(hashmap.get({ hash: 20, value: 50 }));
+        Assert.areEqual("Ninety", hashmap.get({ hash: 20, value: 90 }));
+        Assert.isNull(hashmap.get({ hash: 440, value: 10 }));
+
+        hashmap.unset({ hash: 20, value: 90 });
+        Assert.isNull(hashmap.get({ hash: 20, value: 50 }));
+        Assert.isNull(hashmap.get({ hash: 20, value: 90 }));
+        Assert.isNull(hashmap.get({ hash: 440, value: 10 }));
+    }
 }
 

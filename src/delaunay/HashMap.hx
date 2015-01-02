@@ -86,5 +86,19 @@ class HashMap<K, V> {
             return index == null ? null : existing[index].value;
         }
     }
+
+    /** Removes a value from this hashmap */
+    public inline function unset( key: K ): Void {
+        var hashCode: Int = this.hash(key);
+
+        var existing: Null<Array<KeyValue<K, V>>> = objs.get(hashCode);
+
+        if ( existing != null ) {
+            var index: Null<Int> = indexOf( existing, key );
+            if ( index != null ) {
+                existing.splice(index, 1);
+            }
+        }
+    }
 }
 
