@@ -6,10 +6,7 @@ package delaunay;
 class EdgeGroup<T: DhxPoint> {
 
     /** The list of edges */
-    public var edges(default, null) = new Set<Edge<T>>(
-        function ( edge ) { return edge.hashCode(); },
-        function ( a, b ) { return a.equals(b); }
-    );
+    public var edges(default, never) = new Set<Edge<T>>(Edge.hash, Edge.equal);
 
     /** Tracks the bottom-right point in this group of edges */
     public var bottom(default, null): Null<T> = null;

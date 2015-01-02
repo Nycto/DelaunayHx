@@ -31,9 +31,16 @@ class Edge<T: DhxPoint> {
     }
 
     /** Determines whether this point equals another */
-    public inline function equals( other: Edge<T> ): Bool {
-        return RealPoint.equal(one, other.one) &&
-            RealPoint.equal(two, other.two);
+    public static inline function equal<T: DhxPoint>(
+        a: Edge<T>, b: Edge<T>
+    ): Bool {
+        return RealPoint.equal(a.one, b.one) &&
+            RealPoint.equal(a.two, b.two);
+    }
+
+    /** Generates a hash code */
+    public static inline function hash<T: DhxPoint> ( edge: Edge<T> ): Int {
+        return 41 * (41 + RealPoint.hash(edge.one)) + RealPoint.hash(edge.two);
     }
 
     /** Converts this point to a readable string */
@@ -41,9 +48,14 @@ class Edge<T: DhxPoint> {
         return "Edge(" + one + " -> " + two + ")";
     }
 
-    /** Generates a hash code */
+    /** Determines whether this point equals another */
+    public inline function equals( other: Edge<T> ): Bool {
+        return equal( this, other );
+    }
+
+    /** Generates a hash code for a point */
     public inline function hashCode (): Int {
-        return 41 * (41 + RealPoint.hash(one)) + RealPoint.hash(two);
+        return hash(this);
     }
 }
 
