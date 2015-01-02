@@ -62,5 +62,36 @@ class PointsTest {
         Helper.equals( p(1, 2), points[1] );
         Helper.equals( p(2, 1), points[2] );
     }
+
+    @Test public function testPush():Void {
+        var points = new Points<RealPoint>([]);
+        Helper.iteratesTo([], points.iterator());
+
+        points.push( p(5, 5) );
+        Helper.iteratesTo([ p(5, 5) ], points.iterator());
+
+        points.push( p(0, 0) );
+        Helper.iteratesTo([ p(0, 0), p(5, 5) ], points.iterator());
+
+        points.push( p(0, 0) );
+        Helper.iteratesTo([ p(0, 0), p(5, 5) ], points.iterator());
+
+        points.push( p(5, 10) );
+        Helper.iteratesTo([ p(0, 0), p(5, 5), p(5, 10) ], points.iterator());
+    }
+
+    @Test public function testClear():Void {
+        var points = new Points([ p(1, 2), p(2, 1), p(1, 2), p(0, 0) ]);
+        points.clear();
+        Helper.iteratesTo([], points.iterator());
+    }
+
+    @Test public function testLast():Void {
+        var points = new Points([ p(1, 2), p(2, 1), p(1, 2), p(0, 0) ]);
+        Helper.equals( p(2, 1), points.last() );
+
+        Helper.throws(function() { new Points([]).last(); });
+    }
+
 }
 

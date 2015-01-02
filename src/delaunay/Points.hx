@@ -79,5 +79,30 @@ abstract Points<T: DhxPoint>( Array<T> ) {
     public inline function iterator(): Iterator<T> {
         return this.iterator();
     }
+
+    /** Adds a point to this list and re-sorts */
+    public function push ( newPoint: T ): Void {
+        // Make sure this point doesn't already exist in the list
+        for ( point in this ) {
+            if ( RealPoint.equal(point, newPoint) ) {
+                return;
+            }
+        }
+        this.push( newPoint );
+        this.sort( compare );
+    }
+
+    /** Clears all values from this list */
+    public function clear (): Void {
+        this.splice(0, this.length);
+    }
+
+    /** Clears all values from this list */
+    public function last (): T {
+        if ( this.length == 0 ) {
+            throw "Point list is empty";
+        }
+        return this[this.length - 1];
+    }
 }
 
