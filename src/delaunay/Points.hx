@@ -5,6 +5,7 @@ import delaunay.Slice;
 /**
  * A phantom type that ensures a list of points is unique and sorted
  */
+@:forward(iterator, toString, length)
 abstract Points<T: DhxPoint>( Array<T> ) {
 
     /** Removes duplicates from a list of points */
@@ -55,16 +56,6 @@ abstract Points<T: DhxPoint>( Array<T> ) {
         return new Points( points );
     }
 
-    /** Convert this list a string */
-    public inline function toString(): String {
-        return this.toString();
-    }
-
-    /** Array length */
-    public inline function length(): Int {
-        return this.length;
-    }
-
     /** Array accessor */
     @:arrayAccess public inline function get( index: Int ): T {
         return this[index];
@@ -73,11 +64,6 @@ abstract Points<T: DhxPoint>( Array<T> ) {
     /** Provides access to a part of this array */
     public inline function slice(): Slice<T> {
         return new SliceData(this, 0, this.length);
-    }
-
-    /** Returns an iterator over these points */
-    public inline function iterator(): Iterator<T> {
-        return this.iterator();
     }
 
     /** Adds a point to this list and re-sorts */

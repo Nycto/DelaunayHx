@@ -57,7 +57,7 @@ class PointsTest {
 
     @Test public function testPointsPhantomType():Void {
         var points: Points<RealPoint> = [ p(1, 2), p(2, 1), p(1, 2), p(0, 0) ];
-        Assert.areEqual( 3, points.length() );
+        Assert.areEqual( 3, points.length );
         Helper.equals( p(0, 0), points[0] );
         Helper.equals( p(1, 2), points[1] );
         Helper.equals( p(2, 1), points[2] );
