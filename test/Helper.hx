@@ -99,7 +99,7 @@ class Helper {
                 return;
             }
 
-            equals( expected.next(), actual.next() );
+            equals( expected.next(), actual.next(), info );
         }
     }
 
