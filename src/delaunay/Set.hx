@@ -78,9 +78,11 @@ class Set<K> {
 
     /** Converts this set to an array */
     public function toArray(): Array<K> {
-        var result = new Array<K>();
-        for ( value in iterator() ) {
-            result.push( value );
+        var result: Array<K> = [];
+        for ( list in objs ) {
+            for ( value in list ) {
+                result.push(value);
+            }
         }
         return result;
     }
