@@ -19,10 +19,11 @@ class EdgeGroup<T: DhxPoint> {
     public function new () {}
 
     /**
-     * Compares a point to the bottom-right most point already tracked. Replaces
-     * that point with this one if this is further down right.
+     * Compares a point to the bottom most points already tracked. Replaces
+     * those points with this one if this is lower. Adds it if it is on the
+     * same level.
      */
-    private function potentialBottomRight( point: T ) {
+    private function potentialBottom( point: T ) {
         if (
             bottom.length == 0 ||
             point.getY() == bottom[0].getY()
@@ -37,8 +38,8 @@ class EdgeGroup<T: DhxPoint> {
 
     /** Adds an edge */
     public inline function add ( one: T, two: T ): EdgeGroup<T> {
-        potentialBottomRight( one );
-        potentialBottomRight( two );
+        potentialBottom( one );
+        potentialBottom( two );
         connections.get( one ).add( two );
         connections.get( two ).add( one );
         return this;
