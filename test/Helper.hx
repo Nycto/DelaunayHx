@@ -142,11 +142,14 @@ class Helper {
         expected: Array<T>,
         actual: Array<T>,
         compare: T -> T -> Int,
-        equals: T -> T -> Bool,
+        ?equals: T -> T -> Bool,
         ?info: PosInfos
     ): Void {
         expected.sort( compare );
         actual.sort( compare );
+        if ( equals == null ) {
+            equals = function (a, b) { return compare(a, b) == 0; }
+        }
         arrayEqualsUsing( expected, actual, equals, info );
     }
 }
