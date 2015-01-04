@@ -86,6 +86,11 @@ class Set<K> {
         }
         return result;
     }
+
+    /** Converts this value to a String */
+    public function toString(): String {
+        return "Set(" + toArray().join(", ") + ")";
+    }
 }
 
 /**
