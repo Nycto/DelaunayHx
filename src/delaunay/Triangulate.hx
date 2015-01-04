@@ -60,7 +60,7 @@ class Triangulate<T: DhxPoint> {
         return switch ( slice.length() ) {
             case 0: [];
             case 1: [];
-            case _: calculate(slice).edges.toArray();
+            case _: calculate(slice).toArray();
         }
     }
 

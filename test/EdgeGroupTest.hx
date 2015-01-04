@@ -32,7 +32,7 @@ class EdgeGroupTest {
                 e(5, 0,  4, 5),
                 e(0, -1,  4, 5)
             ],
-            group.edges.toArray(),
+            group.toArray(),
             Edge.compare
         );
     }

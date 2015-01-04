@@ -6,7 +6,7 @@ package delaunay;
 class EdgeGroup<T: DhxPoint> {
 
     /** The list of edges */
-    public var edges(default, never) = new Set<Edge<T>>(Edge.hash, Edge.equal);
+    private var edges(default, never) = new Set<Edge<T>>(Edge.hash, Edge.equal);
 
     /** A map of points to the points they are connected to */
     private var connections(default, never)
@@ -85,6 +85,11 @@ class EdgeGroup<T: DhxPoint> {
         edges.remove(edge);
         connections.get(edge.one).remove(edge.two);
         connections.get(edge.two).remove(edge.one);
+    }
+
+    /** Returns an array of all the edges in this group */
+    public function toArray(): Array<Edge<T>> {
+        return edges.toArray();
     }
 }
 
