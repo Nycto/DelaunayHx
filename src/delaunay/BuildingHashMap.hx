@@ -45,6 +45,11 @@ class BuildingHashMap<K, V> {
         }
     }
 
+    /** Returns a value or null if the key doesn't exist */
+    public inline function maybeGet( key: K ): Null<V> {
+        return inner.get(key);
+    }
+
     /** Returns an iterator of the keys in this map */
     public inline function keys(): Iterator<K> {
         return inner.keys();
