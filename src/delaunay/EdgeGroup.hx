@@ -9,7 +9,7 @@ class EdgeGroup<T: DhxPoint> {
     public var edges(default, never) = new Set<Edge<T>>(Edge.hash, Edge.equal);
 
     /** Tracks the bottom-right point in this group of edges */
-    public var bottom(default, null): Null<T> = null;
+    private var bottom(default, null) = new Points<T>([]);
 
     /** Creates a new edge group from a list of edges */
     public function new ( edges: Array<Edge<T>> ) {
@@ -24,11 +24,14 @@ class EdgeGroup<T: DhxPoint> {
      */
     private function potentialBottomRight( point: T ) {
         if (
-            bottom == null ||
-            point.getY() < bottom.getY() ||
-            ( point.getY() == bottom.getY() && point.getX() > bottom.getX() )
+            bottom.length == 0 ||
+            point.getY() == bottom[0].getY()
         ) {
-            bottom = point;
+            bottom.push(point);
+        }
+        else if ( point.getY() < bottom[0].getY() ) {
+            bottom.clear();
+            bottom.push(point);
         }
     }
 
@@ -43,10 +46,18 @@ class EdgeGroup<T: DhxPoint> {
 
     /** Picks the bottom right-most node in this group */
     public inline function bottomRight (): T {
-        if ( bottom == null ) {
+        if ( bottom.length == 0 ) {
             throw "EdgeGroup does not have any points in it";
         }
-        return bottom;
+        return bottom.last();
+    }
+
+    /** Picks the bottom left-most node in this group */
+    public inline function bottomLeft (): T {
+        if ( bottom.length == 0 ) {
+            throw "EdgeGroup does not have any points in it";
+        }
+        return bottom[0];
     }
 }
 

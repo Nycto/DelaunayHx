@@ -37,21 +37,26 @@ class EdgeGroupTest {
         );
     }
 
-    @Test public function testBottomRight():Void {
+    @Test public function testBottom():Void {
         var group = new EdgeGroup<RealPoint>([]);
         Helper.throws(group.bottomRight);
+        Helper.throws(group.bottomLeft);
 
         group.add( e(1, 1,  4, 5) );
         Helper.equals( p(1, 1), group.bottomRight() );
+        Helper.equals( p(1, 1), group.bottomLeft() );
 
         group.add( e(1, 0,  10, 4) );
         Helper.equals( p(1, 0), group.bottomRight() );
+        Helper.equals( p(1, 0), group.bottomLeft() );
 
         group.add( e(2, 0,  1, 9) );
         Helper.equals( p(2, 0), group.bottomRight() );
+        Helper.equals( p(1, 0), group.bottomLeft() );
 
         group.add( e(0, 0,  1, 9) );
         Helper.equals( p(2, 0), group.bottomRight() );
+        Helper.equals( p(0, 0), group.bottomLeft() );
     }
 }
 
