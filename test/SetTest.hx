@@ -110,5 +110,34 @@ class SetTest {
 
         Helper.arrayEqualsUsing( [], result, equal );
     }
+
+    @Test public function testAddAll():Void {
+        var hashset = new Set<IdValue>( hash, equal );
+        hashset.addAll(
+            new Set<IdValue>( hash, equal )
+                .add( { id: 20, value: 90 } )
+                .add( { id: 40, value: 130 } )
+        );
+
+        Helper.unsortedArrayEqualsUsing(
+            [ { id: 20, value: 90 }, { id: 40, value: 130 } ],
+            hashset.toArray(), compare
+        );
+
+        hashset.addAll(
+            new Set<IdValue>( hash, equal )
+                .add( { id: 40, value: 130 } )
+                .add( { id: 80, value: 200 } )
+        );
+
+        Helper.unsortedArrayEqualsUsing(
+            [
+                { id: 20, value: 90 },
+                { id: 40, value: 130 },
+                { id: 80, value: 200 }
+            ],
+            hashset.toArray(), compare
+        );
+    }
 }
 

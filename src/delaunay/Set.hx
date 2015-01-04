@@ -39,7 +39,7 @@ class Set<K> {
     }
 
     /** Adds a value */
-    public inline function add( value: K ): Void {
+    public inline function add( value: K ): Set<K> {
         var hashCode = this.hash(value);
         var existing = objs.get(hashCode);
         if ( existing == null ) {
@@ -50,6 +50,7 @@ class Set<K> {
         else if ( !listContains(existing, value) ) {
             existing.add(value);
         }
+        return this;
     }
 
     /** Determines whether this set contains a value */
@@ -90,6 +91,15 @@ class Set<K> {
     /** Converts this value to a String */
     public function toString(): String {
         return "Set(" + toArray().join(", ") + ")";
+    }
+
+    /** Adds all the values from another set into this one */
+    public inline function addAll( other: Set<K> ): Void {
+        for ( list in other.objs ) {
+            for ( value in list ) {
+                add(value);
+            }
+        }
     }
 }
 
