@@ -22,12 +22,10 @@ class Triangulate<T: DhxPoint> {
         var c = points[2];
 
         if ( Triangle.isTriangle(a, b, c) ) {
-            return new EdgeGroup([
-                new Edge(a, b), new Edge(b, c), new Edge(a, c)
-            ]);
+            return new EdgeGroup().add(a, b).add(b, c).add(a, c);
         }
         else {
-            return new EdgeGroup([ new Edge<T>(a, b), new Edge<T>(b, c) ]);
+            return new EdgeGroup().add(a, b).add(b, c);
         }
     }
 
@@ -35,7 +33,7 @@ class Triangulate<T: DhxPoint> {
     private static function merge<T: DhxPoint>(
         left: EdgeGroup<T>, right: EdgeGroup<T>
     ): EdgeGroup<T> {
-        return new EdgeGroup([]);
+        return new EdgeGroup();
     }
 
     /** Triangulates the edges for a list of points */
@@ -45,7 +43,7 @@ class Triangulate<T: DhxPoint> {
         return switch ( points.length() ) {
             case 0: throw "Can not triangulate without any points";
             case 1: throw "Can not triangulate with only one point";
-            case 2: new EdgeGroup([ new Edge(points[0], points[1]) ]);
+            case 2: new EdgeGroup().add( points[0], points[1] );
             case 3: getTrinary(points);
             case _: merge(
                 calculate(points.splitLeft()),

@@ -19,11 +19,7 @@ class EdgeGroup<T: DhxPoint> {
     private var bottom(default, null) = new Points<T>([]);
 
     /** Creates a new edge group from a list of edges */
-    public function new ( edges: Array<Edge<T>> ) {
-        for ( edge in edges ) {
-            add(edge);
-        }
-    }
+    public function new () {}
 
     /**
      * Compares a point to the bottom-right most point already tracked. Replaces
@@ -43,14 +39,13 @@ class EdgeGroup<T: DhxPoint> {
     }
 
     /** Adds an edge */
-    public inline function add ( edge: Edge<T> ) {
-        if ( !edges.contains(edge) ) {
-            edges.add( edge );
-            potentialBottomRight( edge.one );
-            potentialBottomRight( edge.two );
-            connections.get( edge.one ).add( edge.two );
-            connections.get( edge.two ).add( edge.one );
-        }
+    public inline function add ( one: T, two: T ): EdgeGroup<T> {
+        edges.add( new Edge( one, two ) );
+        potentialBottomRight( one );
+        potentialBottomRight( two );
+        connections.get( one ).add( two );
+        connections.get( two ).add( one );
+        return this;
     }
 
     /** Picks the bottom right-most node in this group */
@@ -81,10 +76,10 @@ class EdgeGroup<T: DhxPoint> {
     }
 
     /** Removes an edge */
-    public function remove( edge: Edge<T> ): Void {
-        edges.remove(edge);
-        connections.get(edge.one).remove(edge.two);
-        connections.get(edge.two).remove(edge.one);
+    public function remove( one: T, two: T ): Void {
+        edges.remove( new Edge(one, two) );
+        connections.get(one).remove(two);
+        connections.get(two).remove(one);
     }
 
     /** Returns an array of all the edges in this group */

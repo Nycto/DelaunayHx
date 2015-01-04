@@ -19,12 +19,12 @@ class EdgeGroupTest {
     }
 
     @Test public function testAddEdge():Void {
-        var group = new EdgeGroup<RealPoint>([]);
+        var group = new EdgeGroup<RealPoint>();
 
-        group.add( e(0, 0,  4, 5) );
-        group.add( e(5, 0,  4, 5) );
-        group.add( e(0, -1,  4, 5) );
-        group.add( e(5, 0,  4, 5) );
+        group.add( p(0, 0), p(4, 5) );
+        group.add( p(5, 0), p(4, 5) );
+        group.add( p(0, -1), p(4, 5) );
+        group.add( p(5, 0), p(4, 5) );
 
         Helper.unsortedArrayEquals(
             [
@@ -38,46 +38,46 @@ class EdgeGroupTest {
     }
 
     @Test public function testBottom():Void {
-        var group = new EdgeGroup<RealPoint>([]);
+        var group = new EdgeGroup<RealPoint>();
         Helper.throws(group.bottomRight);
         Helper.throws(group.bottomLeft);
 
-        group.add( e(1, 1,  4, 5) );
+        group.add( p(1, 1), p(4, 5) );
         Helper.equals( p(1, 1), group.bottomRight() );
         Helper.equals( p(1, 1), group.bottomLeft() );
 
-        group.add( e(1, 0,  10, 4) );
+        group.add( p(1, 0), p(10, 4) );
         Helper.equals( p(1, 0), group.bottomRight() );
         Helper.equals( p(1, 0), group.bottomLeft() );
 
-        group.add( e(2, 0,  1, 9) );
+        group.add( p(2, 0), p(1, 9) );
         Helper.equals( p(2, 0), group.bottomRight() );
         Helper.equals( p(1, 0), group.bottomLeft() );
 
-        group.add( e(0, 0,  1, 9) );
+        group.add( p(0, 0), p(1, 9) );
         Helper.equals( p(2, 0), group.bottomRight() );
         Helper.equals( p(0, 0), group.bottomLeft() );
     }
 
     @Test public function testConnected():Void {
-        var group = new EdgeGroup<RealPoint>([]);
+        var group = new EdgeGroup<RealPoint>();
         Helper.throws(function(){
             group.connected( p(1, 1), p(5, 1), CounterClockwise );
         });
 
-        group.add( e(1, 1,  4, 5) );
+        group.add( p(1, 1), p(4, 5) );
         Helper.iteratesTo(
             [ p(4, 5) ],
             group.connected(p(1, 1), p(5, 1), CounterClockwise).iterator()
         );
 
-        group.add( e(1, 1,  5, 5) );
+        group.add( p(1, 1), p(5, 5) );
         Helper.iteratesTo(
             [ p(5, 5), p(4, 5) ],
             group.connected(p(1, 1), p(5, 1), CounterClockwise).iterator()
         );
 
-        group.add( e(8, 8,  5, 5) );
+        group.add( p(8, 8), p(5, 5) );
         Helper.iteratesTo(
             [ p(5, 5), p(4, 5) ],
             group.connected(p(1, 1), p(5, 1), CounterClockwise).iterator()
@@ -85,13 +85,13 @@ class EdgeGroupTest {
     }
 
     @Test public function testRemove():Void {
-        var group = new EdgeGroup<RealPoint>([]);
+        var group = new EdgeGroup<RealPoint>();
 
-        group.add( e(1, 1,  4, 5) );
-        group.add( e(1, 1,  5, 5) );
-        group.add( e(8, 8,  5, 5) );
+        group.add( p(1, 1), p(4, 5) );
+        group.add( p(1, 1), p(5, 5) );
+        group.add( p(8, 8), p(5, 5) );
 
-        group.remove( e(1, 1,  5, 5) );
+        group.remove( p(1, 1), p(5, 5) );
 
         Helper.iteratesTo(
             [ p(4, 5) ],
