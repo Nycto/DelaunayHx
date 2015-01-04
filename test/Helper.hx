@@ -9,6 +9,15 @@ typedef Equals = {
 
 class Helper {
 
+    /** Converts an iterator to an array */
+    static public function toArray<T> ( input: Iterator<T> ): Array<T> {
+        var out = [];
+        for ( value in input ) {
+            out.push(value);
+        }
+        return out;
+    }
+
     /** Determines whether this point equals another */
     static public function arrayEqualsUsing<T>(
         expected: Array<T>,
