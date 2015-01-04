@@ -58,5 +58,30 @@ class EdgeGroupTest {
         Helper.equals( p(2, 0), group.bottomRight() );
         Helper.equals( p(0, 0), group.bottomLeft() );
     }
+
+    @Test public function testConnected():Void {
+        var group = new EdgeGroup<RealPoint>([]);
+        Helper.throws(function(){
+            group.connected( p(1, 1), p(5, 1), CounterClockwise );
+        });
+
+        group.add( e(1, 1,  4, 5) );
+        Helper.iteratesTo(
+            [ p(4, 5) ],
+            group.connected(p(1, 1), p(5, 1), CounterClockwise).iterator()
+        );
+
+        group.add( e(1, 1,  5, 5) );
+        Helper.iteratesTo(
+            [ p(5, 5), p(4, 5) ],
+            group.connected(p(1, 1), p(5, 1), CounterClockwise).iterator()
+        );
+
+        group.add( e(8, 8,  5, 5) );
+        Helper.iteratesTo(
+            [ p(5, 5), p(4, 5) ],
+            group.connected(p(1, 1), p(5, 1), CounterClockwise).iterator()
+        );
+    }
 }
 
