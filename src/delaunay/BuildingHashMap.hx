@@ -49,6 +49,11 @@ class BuildingHashMap<K, V> {
     public inline function keys(): Iterator<K> {
         return inner.keys();
     }
+
+    /** Returns a string representation of this hashmap */
+    public function toString(): String {
+        return inner.toString();
+    }
 }
 
 

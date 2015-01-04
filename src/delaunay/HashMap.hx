@@ -113,5 +113,14 @@ class HashMap<K, V> {
             }
         };
     }
+
+    /** Returns a string representation of this hashmap */
+    public function toString(): String {
+        var result = new Array<String>();
+        for ( pair in new FlatIterator( objs.iterator() ) ) {
+            result.push( pair.key + " -> " + pair.value );
+        }
+        return "Map(" + result.join(", ") + ")";
+    }
 }
 
