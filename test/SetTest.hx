@@ -77,14 +77,37 @@ class SetTest {
         hashset.add({ hash: 40, value: 130 });
         hashset.add({ hash: 20, value: 50 });
 
+        var result = [];
+        for ( value in hashset ) {
+            result.push( value );
+        }
+
         Helper.unsortedArrayEqualsUsing(
             [
                 { hash: 20, value: 50 },
                 { hash: 20, value: 90 },
                 { hash: 40, value: 130 }
             ],
-            hashset.toArray(),
+            result,
             function (a, b) { return a.value < b.value ? -1 : 1; },
+            function (a, b) { return a.value == b.value; }
+        );
+    }
+
+    @Test public function testEmptyIteration():Void {
+        var hashset = new Set<{ hash: Int, value: Int }>(
+            function ( obj ) { return obj.hash; },
+            function ( a, b ) { return a.value == b.value; }
+        );
+
+        var result = [];
+        for ( value in hashset ) {
+            result.push( value );
+        }
+
+        Helper.arrayEqualsUsing(
+            [],
+            hashset.toArray(),
             function (a, b) { return a.value == b.value; }
         );
     }

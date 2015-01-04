@@ -116,7 +116,7 @@ private class SetIterator<K> {
 
     /** Returns whether there are values left in this iterator */
     public function hasNext(): Bool {
-        if ( listIter == null && mapIter.hasNext() ) {
+        if ( listIter == null ) {
             return mapIter.hasNext();
         }
         else {
