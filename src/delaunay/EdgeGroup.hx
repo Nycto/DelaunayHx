@@ -5,9 +5,6 @@ package delaunay;
  */
 class EdgeGroup<T: DhxPoint> {
 
-    /** The list of edges */
-    private var edges(default, never) = new Set<Edge<T>>(Edge.hash, Edge.equal);
-
     /** A map of points to the points they are connected to */
     private var connections(default, never)
         = new BuildingHashMap<T, Set<T>>(
@@ -40,7 +37,6 @@ class EdgeGroup<T: DhxPoint> {
 
     /** Adds an edge */
     public inline function add ( one: T, two: T ): EdgeGroup<T> {
-        edges.add( new Edge( one, two ) );
         potentialBottomRight( one );
         potentialBottomRight( two );
         connections.get( one ).add( two );
@@ -77,14 +73,30 @@ class EdgeGroup<T: DhxPoint> {
 
     /** Removes an edge */
     public function remove( one: T, two: T ): Void {
-        edges.remove( new Edge(one, two) );
         connections.get(one).remove(two);
         connections.get(two).remove(one);
     }
 
+    /** Executes a callback for each determined edge */
+    public function eachEdge( callback: T -> T -> Void ): Void {
+        var seen = new Set<T>( RealPoint.hash, RealPoint.equal );
+        for ( key in connections.keys() ) {
+            seen.add(key);
+            for (point in connections.get(key)) {
+                if ( !seen.contains(point) ) {
+                    callback(key, point);
+                }
+            }
+        }
+    }
+
     /** Returns an array of all the edges in this group */
     public function toArray(): Array<Edge<T>> {
-        return edges.toArray();
+        var result = [];
+        eachEdge(function (a, b) {
+            result.push( new Edge(a, b) );
+        });
+        return result;
     }
 }
 

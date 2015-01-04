@@ -53,21 +53,20 @@ class Triangulate<T: DhxPoint> {
     }
 
     /** Executes a callback for each determined edge */
-    public function getEdges(): Array<Edge<T>> {
+    public function eachEdge( callback: T -> T -> Void ): Void {
         var slice: Slice<T> = points;
-        return switch ( slice.length() ) {
-            case 0: [];
-            case 1: [];
-            case _: calculate(slice).toArray();
+        if ( slice.length() > 1 ) {
+            calculate(slice).eachEdge(callback);
         }
     }
 
     /** Executes a callback for each determined edge */
-    public function eachEdge( callback: T -> T -> Void ): Void {
-        for ( edge in getEdges() ) {
-            callback( edge.one, edge.two );
-        }
+    public function getEdges(): Array<Edge<T>> {
+        var result = [];
+        eachEdge(function (one, two) {
+            result.push( new Edge(one, two) );
+        });
+        return result;
     }
-
 }
 
