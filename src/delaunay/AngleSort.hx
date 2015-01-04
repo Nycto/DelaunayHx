@@ -31,7 +31,7 @@ abstract AngleSort<T: DhxPoint>( Array<T> ) {
         direction: Direction,
         points: Array<T>
     ) {
-        this = points.copy();
+        this = points;
         this.sort(function (a, b) {
             var angleToA = angle(base, reference, a);
             var angleToB = angle(base, reference, b);
