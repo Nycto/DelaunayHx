@@ -10,9 +10,9 @@ class EdgeGroup<T: DhxPoint> {
 
     /** A map of points to the points they are connected to */
     private var connections(default, never)
-        = new BuildingHashMap<T, Array<T>>(
+        = new BuildingHashMap<T, Set<T>>(
             RealPoint.hash, RealPoint.equal,
-            function () { return []; }
+            function () { return new Set<T>(RealPoint.hash, RealPoint.equal); }
         );
 
     /** Tracks the bottom-right point in this group of edges */
@@ -48,8 +48,8 @@ class EdgeGroup<T: DhxPoint> {
             edges.add( edge );
             potentialBottomRight( edge.one );
             potentialBottomRight( edge.two );
-            connections.get( edge.one ).push( edge.two );
-            connections.get( edge.two ).push( edge.one );
+            connections.get( edge.one ).add( edge.two );
+            connections.get( edge.two ).add( edge.one );
         }
     }
 
@@ -73,11 +73,18 @@ class EdgeGroup<T: DhxPoint> {
     public inline function connected(
         point: T, sortVersus: T, direction: Direction
     ): AngleSort<T> {
-        var points = connections.get(point);
+        var points = connections.get(point).toArray();
         if ( points.length == 0 ) {
             throw "Point does not exist in EdgeGroup";
         }
-        return new AngleSort( point, sortVersus, direction, points );
+        return new AngleSort(point, sortVersus, direction, points);
+    }
+
+    /** Removes an edge */
+    public function remove( edge: Edge<T> ): Void {
+        edges.remove(edge);
+        connections.get(edge.one).remove(edge.two);
+        connections.get(edge.two).remove(edge.one);
     }
 }
 

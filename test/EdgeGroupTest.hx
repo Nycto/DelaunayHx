@@ -83,5 +83,25 @@ class EdgeGroupTest {
             group.connected(p(1, 1), p(5, 1), CounterClockwise).iterator()
         );
     }
+
+    @Test public function testRemove():Void {
+        var group = new EdgeGroup<RealPoint>([]);
+
+        group.add( e(1, 1,  4, 5) );
+        group.add( e(1, 1,  5, 5) );
+        group.add( e(8, 8,  5, 5) );
+
+        group.remove( e(1, 1,  5, 5) );
+
+        Helper.iteratesTo(
+            [ p(4, 5) ],
+            group.connected(p(1, 1), p(5, 1), CounterClockwise).iterator()
+        );
+
+        Helper.iteratesTo(
+            [ p(8, 8) ],
+            group.connected(p(5, 5), p(5, 1), CounterClockwise).iterator()
+        );
+    }
 }
 
