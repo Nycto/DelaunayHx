@@ -44,6 +44,11 @@ class BuildingHashMap<K, V> {
             return value;
         }
     }
+
+    /** Returns an iterator of the keys in this map */
+    public inline function keys(): Iterator<K> {
+        return inner.keys();
+    }
 }
 
 

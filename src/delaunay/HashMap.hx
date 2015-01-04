@@ -100,5 +100,18 @@ class HashMap<K, V> {
             }
         }
     }
+
+    /** Returns an iterator over the keys in this hashmap */
+    public inline function keys(): Iterator<K> {
+        var iterator = new FlatIterator( objs.iterator() );
+        return {
+            hasNext: function (): Bool {
+                return iterator.hasNext();
+            },
+            next: function (): K {
+                return iterator.next().key;
+            }
+        };
+    }
 }
 

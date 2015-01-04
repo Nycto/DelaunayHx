@@ -80,5 +80,25 @@ class HashMapTest {
         Assert.isNull(hashmap.get({ id: 20, value: 90 }));
         Assert.isNull(hashmap.get({ id: 440, value: 10 }));
     }
+
+    @Test public function testKeyIteration():Void {
+        var hashmap = new HashMap<{ id: Int }, String>( hash, idEqual );
+
+        Helper.arrayEqualsUsing(
+            [],
+            Helper.toArray( hashmap.keys() ),
+            idEqual
+        );
+
+        hashmap.set({ id: 50 }, "Fifty");
+        hashmap.set({ id: 60 }, "Sixty");
+        hashmap.set({ id: 90 }, "Ninety");
+
+        Helper.unsortedArrayEqualsUsing(
+            [{ id: 50 }, { id: 60 }, { id: 90 }],
+            Helper.toArray( hashmap.keys() ),
+            compare
+        );
+    }
 }
 
