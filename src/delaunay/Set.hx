@@ -73,7 +73,7 @@ class Set<K> {
 
     /** Generates an iterator */
     public function iterator(): Iterator<K> {
-        return new SetIterator<K>( objs );
+        return new FlatIterator<K>( objs.iterator() );
     }
 
     /** Converts this set to an array */
@@ -90,49 +90,6 @@ class Set<K> {
     /** Converts this value to a String */
     public function toString(): String {
         return "Set(" + toArray().join(", ") + ")";
-    }
-}
-
-/**
- * An iterator for walking through the values in a set
- */
-private class SetIterator<K> {
-
-    /**
-     * Iterataion requires walking through each list of values in the map. This
-     * is the outer map iterator.
-     */
-    private var mapIter: Iterator<List<K>>;
-
-    /**
-     * An iterator for each list from the values in the Map
-     */
-    private var listIter: Null<Iterator<K>> = null;
-
-    /** Constructor */
-    public function new ( map: IntMap<List<K>> ) {
-        mapIter = map.iterator();
-    }
-
-    /** Returns whether there are values left in this iterator */
-    public function hasNext(): Bool {
-        if ( listIter == null ) {
-            return mapIter.hasNext();
-        }
-        else {
-            return listIter.hasNext() || mapIter.hasNext();
-        }
-    }
-
-    /** Returns the next value in this iterator */
-    public function next(): K {
-        if ( listIter == null || !listIter.hasNext() ) {
-            if ( !mapIter.hasNext() ) {
-                throw "Iterator has already been exhausted";
-            }
-            listIter = mapIter.next().iterator();
-        }
-        return listIter.next();
     }
 }
 
