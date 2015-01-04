@@ -1,11 +1,5 @@
 package delaunay;
 
-/** Circular direction */
-enum Direction {
-    Clockwise;
-    CounterClockwise;
-}
-
 /**
  * A list of points sorted by their angle from an edge. During the merge
  * phase, these are the candidates for a new edge
