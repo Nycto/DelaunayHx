@@ -78,6 +78,20 @@ abstract Points<T: DhxPoint>( Array<T> ) {
         this.sort( compare );
     }
 
+    /** Adds a bunch of points from another point set onto this one */
+    public function addAll( other: Points<T> ): Void {
+        var existing = new Set<T>( RealPoint.hash, RealPoint.equal );
+        for ( point in this ) {
+            existing.add(point);
+        }
+        for ( newPoint in other ) {
+            if ( !existing.contains(newPoint) ) {
+                this.push( newPoint );
+            }
+        }
+        this.sort( compare );
+    }
+
     /** Clears all values from this list */
     public function clear (): Void {
         this.splice(0, this.length);

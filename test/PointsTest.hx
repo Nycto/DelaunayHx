@@ -93,5 +93,18 @@ class PointsTest {
         Helper.throws(function() { new Points([]).last(); });
     }
 
+    @Test public function testAddAll():Void {
+        var points = new Points([]);
+
+        points.addAll( new Points([ p(1, 2), p(2, 1) ]) );
+        Helper.iteratesTo([ p(1, 2), p(2, 1) ], points.iterator());
+
+        points.addAll( new Points([ p(0, 0), p(1, 2), p(5, 5) ]) );
+        Helper.iteratesTo(
+            [ p(0, 0), p(1, 2), p(2, 1), p(5, 5) ],
+            points.iterator()
+        );
+    }
+
 }
 
