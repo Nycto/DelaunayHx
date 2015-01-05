@@ -126,5 +126,15 @@ class EdgeGroup<T: DhxPoint> {
             bottom.addAll( other.bottom );
         }
     }
+
+    /** Return a string representation */
+    public function toString(): String {
+        var points = [];
+        eachEdge(function (a, b) {
+            points.push(a + " -> " + b);
+        });
+        return "EdgeGroup(" + points.join(", ") + ")";
+    }
+
 }
 
