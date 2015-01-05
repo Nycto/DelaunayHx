@@ -103,5 +103,93 @@ class EdgeGroupTest {
             group.connected(p(5, 5), p(5, 1), CounterClockwise).iterator()
         );
     }
+
+    @Test public function testAddAllWithoutSharedPoints():Void {
+        var group = new EdgeGroup<RealPoint>()
+            .add( p(0, 0), p(2, 0) )
+            .add( p(1, 1), p(2, 0) )
+            .add( p(0, 0), p(1, 1) );
+
+        group.addAll(
+            new EdgeGroup<RealPoint>()
+                .add( p(5, 5), p(7, 5) )
+                .add( p(6, 6), p(7, 5) )
+                .add( p(5, 5), p(6, 6) )
+        );
+
+        Helper.unsortedArrayEquals(
+            [
+                e(0, 0,  2, 0), e(1, 1,  2, 0), e(0, 0,  1, 1),
+                e(5, 5,  7, 5), e(6, 6,  7, 5), e(5, 5,  6, 6)
+            ],
+            group.toArray(),
+            Edge.compare
+        );
+
+        Helper.equals( p(2, 0), group.bottomRight() );
+        Helper.equals( p(0, 0), group.bottomLeft() );
+    }
+
+    @Test public function testAddAllWithSharedPoints():Void {
+        var group = new EdgeGroup<RealPoint>()
+            .add( p(0, 0), p(2, 0) )
+            .add( p(1, 1), p(2, 0) )
+            .add( p(0, 0), p(1, 1) );
+
+        group.addAll(
+            new EdgeGroup<RealPoint>()
+                .add( p(1, 1), p(2, 0) )
+                .add( p(1, 1), p(5, 5) )
+                .add( p(5, 5), p(2, 0) )
+        );
+
+        Helper.unsortedArrayEquals(
+            [
+                e(0, 0,  2, 0), e(1, 1,  2, 0), e(0, 0,  1, 1),
+                e(1, 1,  5, 5), e(5, 5,  2, 0)
+            ],
+            group.toArray(),
+            Edge.compare
+        );
+    }
+
+    @Test public function testAddAllWithNewBottom():Void {
+        var group = new EdgeGroup<RealPoint>()
+            .add( p(0, 5), p(2, 5) )
+            .add( p(1, 5), p(2, 5) );
+
+        group.addAll(
+            new EdgeGroup<RealPoint>()
+                .add( p(1, 2), p(1, 4) )
+                .add( p(3, 3), p(5, 2) )
+        );
+
+        Helper.unsortedArrayEquals(
+            [
+                e(0, 5,  2, 5), e(1, 5,  2, 5),
+                e(1, 2,  1, 4), e(3, 3,  5, 2)
+            ],
+            group.toArray(),
+            Edge.compare
+        );
+
+        Helper.equals( p(5, 2), group.bottomRight() );
+        Helper.equals( p(1, 2), group.bottomLeft() );
+    }
+
+    @Test public function testAddAllWithSharedBottom():Void {
+        var group = new EdgeGroup<RealPoint>()
+            .add( p(0, 5), p(2, 7) )
+            .add( p(3, 5), p(2, 7) );
+
+        group.addAll(
+            new EdgeGroup<RealPoint>()
+                .add( p(1, 5), p(1, 8) )
+                .add( p(5, 5), p(1, 8) )
+        );
+
+        Helper.equals( p(5, 5), group.bottomRight() );
+        Helper.equals( p(0, 5), group.bottomLeft() );
+    }
 }
 

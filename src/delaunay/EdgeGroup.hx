@@ -99,5 +99,32 @@ class EdgeGroup<T: DhxPoint> {
         });
         return result;
     }
+
+    /** Adds all the edges from another edge group to this one */
+    public function addAll ( other: EdgeGroup<T> ): Void {
+        for ( key in other.connections.keys() ) {
+            var thisSet = connections.maybeGet(key);
+            var otherSet = other.connections.get(key);
+
+            if ( thisSet == null ) {
+                // This is faster, but it also means changes to the other
+                // edge goup will impact this one. Based on the way this all
+                // works, though, that should be a fair compromise
+                connections.set( key, otherSet );
+            }
+            else {
+                for ( point in otherSet ) {
+                    thisSet.add(point);
+                }
+            }
+        }
+
+        if ( bottom.length == 0 || bottom[0].getY() > other.bottom[0].getY() ) {
+            bottom = other.bottom;
+        }
+        else if ( bottom[0].getY() == other.bottom[0].getY() ) {
+            bottom.addAll( other.bottom );
+        }
+    }
 }
 
