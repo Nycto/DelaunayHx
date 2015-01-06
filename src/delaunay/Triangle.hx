@@ -53,15 +53,10 @@ class Triangle {
         var x4 = d.getX();
         var y4 = d.getY();
 
-        // For the line perpendicular to the first two points, calculate `m`
-        // and `b` in the equation `y = mx + b`
+        // Calculate the slope of each of the perpendicular lines. In
+        // the equation `y = mx + b`, this is the `m`
         var slope1 = -1 * ( (x2 - x1) / (y2 - y1) );
-        var yintercept1 = ( -1 * slope1 * (x1 + x2) + y1 + y2 ) / 2;
-
-        // For the line perpendicular to the second and third points, calculate
-        // `m` and `b` in the equation `y = mx + b`
         var slope2 = -1 * ( (x3 - x2) / (y3 - y2) );
-        var yintercept2 = ( -1 * slope2 * (x2 + x3) + y2 + y3 ) / 2;
 
         // If the slopes are the same, it means the lines are parallel and these
         // three points don't form a triangle
@@ -69,6 +64,17 @@ class Triangle {
             throw "Given points don't form a triangle: " +
                 a + ", " + b + ", " + c;
         }
+
+        // If we are dealing with any horizontal lines, they cause the slope
+        // to be infinity. The easy solution is to just use different edges
+        if ( y1 == y2 || y2 == y3 ) {
+            return isPointInCircumCircle( c, a, b, d );
+        }
+
+        // Calculate the y-intercept of each of the perpendicular lines. In
+        // the equation `y = mx + b`, this is the `b`
+        var yintercept1 = ( -1 * slope1 * (x1 + x2) + y1 + y2 ) / 2;
+        var yintercept2 = ( -1 * slope2 * (x2 + x3) + y2 + y3 ) / 2;
 
         // (centerx, centery) is the centroid of the circumcircle
         var centerx = (yintercept2 - yintercept1) / (slope1 - slope2);

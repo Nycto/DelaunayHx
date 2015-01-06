@@ -37,6 +37,20 @@ class TriangleTest {
                 p(0, 0), p(5, 5), p(10, 10), p(5, 2) );
         });
 
+        // Points in a line can't form a triangle
+        Helper.throws(function () {
+            Triangle.isPointInCircumCircle(
+                p(0, 0), p(0, 5), p(0, 10), p(5, 2) );
+        });
+
+        Assert.isTrue(Triangle.isPointInCircumCircle(
+            p(0, 0), p(5, 0), p(0, 5), p(3, 3)
+        ));
+
+        Assert.isTrue(Triangle.isPointInCircumCircle(
+            p(2, 7), p(0, 0), p(5, 0), p(3, 3)
+        ));
+
         Assert.isTrue(Triangle.isPointInCircumCircle(
             p(0, 0), p(5, 5), p(10, 0), p(5, 2)
         ));
