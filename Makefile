@@ -2,7 +2,20 @@
 test: compile_test
 	@echo
 	@echo
-	haxelib run munit test -result-exit-code | tail -n 50
+	haxelib run munit test -cpp -result-exit-code | tail -n 50
+
+.PHONY: js
+js: compile_test
+	@echo
+	@echo
+	haxelib run munit test -js -norun
+	google-chrome build/report/test-runner/index.html
+
+.PHONY: neko
+neko: compile_test
+	@echo
+	@echo
+	haxelib run munit test -neko
 
 compile_test_file := test/CompileTest.hx
 

@@ -9,6 +9,28 @@
 -D HXCPP_M64
 -cpp build/cpp_test
 
+--next
+
+-main TestMain
+
+-lib munit
+-lib hamcrest
+
+-cp src
+-cp test
+
 # Builds for Neko are faster, but they tend to segfault
-#-neko build/neko_test.n
+-neko build/neko_test.n
+
+--next
+
+-main TestMain
+
+-lib munit
+-lib hamcrest
+
+-cp src
+-cp test
+
+-js build/test.js
 
