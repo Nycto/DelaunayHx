@@ -22,21 +22,21 @@ class FlatIterator<K> {
 
     /** Returns whether there are values left in this iterator */
     public function hasNext(): Bool {
-        if ( innerIter == null ) {
-            return outerIter.hasNext();
+        while ( innerIter == null || !innerIter.hasNext() ) {
+            if ( !outerIter.hasNext() ) {
+                return false;
+            }
+            else {
+                innerIter = outerIter.next().iterator();
+            }
         }
-        else {
-            return innerIter.hasNext() || outerIter.hasNext();
-        }
+        return innerIter.hasNext();
     }
 
     /** Returns the next value in this iterator */
     public function next(): K {
         if ( innerIter == null || !innerIter.hasNext() ) {
-            if ( !outerIter.hasNext() ) {
-                throw "Iterator has already been exhausted";
-            }
-            innerIter = outerIter.next().iterator();
+            throw "Iterator has already been exhausted";
         }
         return innerIter.next();
     }
