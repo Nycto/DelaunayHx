@@ -48,19 +48,15 @@ class AngleSortTest {
         ];
 
         var counter = new AngleSort(
-            p(0, 0), p(5, 0),
-            CounterClockwise,
-            points
+            p(0, 0), p(5, 0), CounterClockwise, points );
+        Helper.iteratesTo(
+            points.slice(0, 7),
+            counter.iterator()
         );
-        Helper.iteratesTo( points, counter.iterator() );
 
-        var clockwise = new AngleSort(
-            p(0, 0), p(5, 0),
-            Clockwise,
-            points
-        );
+        var clockwise = new AngleSort( p(0, 0), p(5, 0), Clockwise, points );
         points.reverse();
-        Helper.iteratesTo( points, clockwise.iterator() );
+        Helper.iteratesTo( points.slice(0, 7), clockwise.iterator() );
     }
 }
 

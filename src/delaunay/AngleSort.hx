@@ -1,8 +1,9 @@
 package delaunay;
 
 /**
- * A list of points sorted by their angle from an edge. During the merge
- * phase, these are the candidates for a new edge
+ * A list of points sorted by their angle from an edge and filtered to
+ * everything less than 180 degrees. During the merge phase, these are the
+ * candidates for a new edge
  */
 @:forward(iterator)
 abstract AngleSort<T: DhxPoint>( Array<T> ) {
@@ -31,8 +32,20 @@ abstract AngleSort<T: DhxPoint>( Array<T> ) {
         direction: Direction,
         points: Array<T>
     ) {
-        this = points;
-        this.sort(function (a, b) {
+        // Filter down to points less than 180 degrees
+        if ( direction == Clockwise ) {
+            points = points.filter(function (point) {
+                return angle(base, reference, point) > Math.PI;
+            });
+        }
+        else {
+            points = points.filter(function (point) {
+                return angle(base, reference, point) < Math.PI;
+            });
+        }
+
+        // Sort in clockwise or counter-clockwise
+        points.sort(function (a, b) {
             var angleToA = angle(base, reference, a);
             var angleToB = angle(base, reference, b);
             if ( angleToA == angleToB ) {
@@ -45,5 +58,7 @@ abstract AngleSort<T: DhxPoint>( Array<T> ) {
                 return angleToA < angleToB ? -1 : 1;
             }
         });
+
+        this = points;
     }
 }
