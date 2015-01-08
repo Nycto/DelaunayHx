@@ -1,5 +1,6 @@
 package;
 
+import delaunay.Set;
 import delaunay.Triangulate;
 import delaunay.DhxPoint;
 import delaunay.RealPoint;
@@ -33,12 +34,31 @@ class TriangulateTest {
             }
         }
 
-        Helper.unsortedArrayEquals(
-            edges,
-            new Triangulate(points).getEdges(),
-            Edge.compare,
-            info
-        );
+        var expected = new Set<Edge<RealPoint>>( Edge.hash, Edge.equal );
+        Lambda.iter( edges, expected.add );
+
+        var actual = new Set<Edge<RealPoint>>( Edge.hash, Edge.equal );
+        Lambda.iter( new Triangulate(points).getEdges(), actual.add );
+
+        var extra = Lambda.filter( actual, function ( edge ) {
+            return !expected.contains(edge);
+        });
+
+        var missing = Lambda.filter( expected, function ( edge ) {
+            return !actual.contains(edge);
+        });
+
+        if ( missing.length > 0 && extra.length == 0 ) {
+            Assert.fail( "Missing edges: " + missing, info );
+        }
+        else if ( extra.length > 0 && missing.length == 0 ) {
+            Assert.fail( "Extra edges: " + extra, info );
+        }
+        else if ( extra.length > 0 && missing.length > 0 ) {
+            Assert.fail(
+                "Missing edges: " + missing +
+                " and extra edges: " + extra, info );
+        }
     }
 
     @Test public function testEmptyPoints():Void {
