@@ -50,6 +50,10 @@ class Triangle {
         var x3 = c.getX();
         var y3 = c.getY();
 
+        if ( (x1 == x2 && y1 == y2) || (x2 == x3 && y2 == y3) ) {
+            throw "Trying to find circumcircle with two duplicate points";
+        }
+
         var x4 = d.getX();
         var y4 = d.getY();
 

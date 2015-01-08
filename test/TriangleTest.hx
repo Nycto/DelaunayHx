@@ -43,6 +43,12 @@ class TriangleTest {
                 p(0, 0), p(0, 5), p(0, 10), p(5, 2) );
         });
 
+        // Throw when two points are shared
+        Helper.throws(function () {
+            Triangle.isPointInCircumCircle(
+                p(0, 0), p(5, 0), p(5, 0), p(3, 3) );
+        });
+
         Assert.isTrue(Triangle.isPointInCircumCircle(
             p(0, 0), p(5, 0), p(0, 5), p(3, 3)
         ));
