@@ -45,7 +45,11 @@ class Edge<T: DhxPoint> {
 
     /** Converts this point to a readable string */
     public inline function toString(): String {
-        return "Edge(" + one + " -> " + two + ")";
+        return "(" +
+            one.getX() + ", " + one.getY() +
+            " -> " +
+            two.getX() + ", " + two.getY() +
+            ")";
     }
 
     /** Determines whether this point equals another */
