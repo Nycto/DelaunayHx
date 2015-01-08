@@ -73,5 +73,22 @@ class TriangulateTest {
             [ p(5, 5), p(0, 0), p(10, 10) ]
         );
     }
+
+    @Test public function testFour():Void {
+
+        // Edges for the following grid:
+        //
+        // 2 |    *
+        // 1 | *        *
+        // 0 |    *
+        //   -------------
+        //     0  1  2  3
+
+        assertEdges([
+            e(0, 1,  1, 0), e(0, 1,  1, 2),
+            e(1, 0,  1, 2), e(1, 0,  3, 1),
+            e(1, 2,  3, 1)
+        ]);
+    }
 }
 

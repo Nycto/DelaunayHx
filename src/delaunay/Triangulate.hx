@@ -29,13 +29,6 @@ class Triangulate<T: DhxPoint> {
         }
     }
 
-    /** Merges together sets of edges */
-    private static function merge<T: DhxPoint>(
-        left: EdgeGroup<T>, right: EdgeGroup<T>
-    ): EdgeGroup<T> {
-        return new EdgeGroup();
-    }
-
     /** Triangulates the edges for a list of points */
     private static function calculate<T: DhxPoint>(
         points: Slice<T>
@@ -45,7 +38,7 @@ class Triangulate<T: DhxPoint> {
             case 1: throw "Can not triangulate with only one point";
             case 2: new EdgeGroup().add( points[0], points[1] );
             case 3: getTrinary(points);
-            case _: merge(
+            case _: DivideAndConquer.merge(
                 calculate(points.splitLeft()),
                 calculate(points.splitRight())
             );
@@ -54,19 +47,14 @@ class Triangulate<T: DhxPoint> {
 
     /** Executes a callback for each determined edge */
     public function eachEdge( callback: T -> T -> Void ): Void {
-        var slice: Slice<T> = points;
-        if ( slice.length() > 1 ) {
-            calculate(slice).eachEdge(callback);
+        if ( points.length > 1 ) {
+            calculate(points).eachEdge(callback);
         }
     }
 
     /** Executes a callback for each determined edge */
     public function getEdges(): Array<Edge<T>> {
-        var result = [];
-        eachEdge(function (one, two) {
-            result.push( new Edge(one, two) );
-        });
-        return result;
+        return points.length <= 1 ? [] : calculate(points).toArray();
     }
 }
 
