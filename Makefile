@@ -8,8 +8,7 @@ test: compile_test
 js: compile_test
 	@echo
 	@echo
-	haxelib run munit test -js -norun
-	google-chrome build/report/test-runner/index.html
+	haxelib run munit test -js
 
 .PHONY: neko
 neko: compile_test
