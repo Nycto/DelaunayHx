@@ -61,4 +61,9 @@ abstract AngleSort<T: DhxPoint>( Array<T> ) {
 
         this = points;
     }
+
+    /** Returns the first value from this list */
+    public inline function first(): Null<T> {
+        return this.length == 0 ? null : this[0];
+    }
 }
