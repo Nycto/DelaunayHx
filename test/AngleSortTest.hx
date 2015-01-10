@@ -36,6 +36,26 @@ class AngleSortTest {
         );
     }
 
+    @Test public function testIncludePointsWithSameSlope():Void {
+        Helper.iteratesTo(
+            [ p(1, 1), p(5, 0) ],
+            new AngleSort(
+                p(0, 0), p(4, 4),
+                Clockwise,
+                [  p(1, 1), p(5, 0) ]
+            ).iterator()
+        );
+
+        Helper.iteratesTo(
+            [ p(1, 1), p(0, 5) ],
+            new AngleSort(
+                p(0, 0), p(4, 4),
+                CounterClockwise,
+                [  p(1, 1), p(0, 5) ]
+            ).iterator()
+        );
+    }
+
     @Test public function testFullCircle():Void {
         var points = [
             p( 5, 1 ), p( 5, 5 ), p( 3, 5 ),

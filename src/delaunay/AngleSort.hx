@@ -35,12 +35,14 @@ abstract AngleSort<T: DhxPoint>( Array<T> ) {
         // Filter down to points less than 180 degrees
         if ( direction == Clockwise ) {
             points = points.filter(function (point) {
-                return angle(base, reference, point) > Math.PI;
+                var angle = angle(base, reference, point);
+                return angle == 0 || angle > Math.PI;
             });
         }
         else {
             points = points.filter(function (point) {
-                return angle(base, reference, point) < Math.PI;
+                var angle = angle(base, reference, point);
+                return angle == 0 || angle < Math.PI;
             });
         }
 
@@ -50,6 +52,12 @@ abstract AngleSort<T: DhxPoint>( Array<T> ) {
             var angleToB = angle(base, reference, b);
             if ( angleToA == angleToB ) {
                 return 0;
+            }
+            else if ( angleToA == 0 ) {
+                return -1;
+            }
+            else if ( angleToB == 0 ) {
+                return 1;
             }
             else if ( direction == Clockwise ) {
                 return angleToA < angleToB ? 1 : -1;
