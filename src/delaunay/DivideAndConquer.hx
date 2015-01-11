@@ -79,12 +79,85 @@ class DivideAndConquer {
         }
     }
 
+    /**
+     * Chooses the baseLeft point for a new merge
+     * @param group - The group to pull edges from
+     * @param direction - The direction to sort pulled edges
+     * @param best - The best point seen so far
+     * @param examine - The next point to examine
+     * @param reference - The reference point from the other side of the merge
+     */
+    private static function chooseBase<T: DhxPoint>(
+        group: EdgeGroup<T>, direction: Direction,
+        examine: T, reference: T
+    ): T {
+
+        var examineY = examine.getY();
+        var rise = reference.getY() - examineY;
+
+        // If we see a horizontal line, both right and left are on even ground
+        if ( rise == 0 ) {
+            return examine;
+        }
+
+        var option = group.connected(examine, reference, direction).first();
+
+        // No more options? Guess this is it...
+        if ( option == null ) {
+            return examine;
+        }
+
+        var examineX = examine.getX();
+        var run = reference.getX() - examineX;
+
+        // If we see a vertical line, we need to look for more points
+        if ( run == 0 ) {
+            return chooseBase( group, direction, option, reference );
+        }
+
+        var slope = rise / run;
+        var optionSlope =
+            (option.getY() - examineY) / (option.getX() - examineX);
+
+        // If the next point is an extension of this point, we need to keep
+        // looking further
+        if ( slope == optionSlope ) {
+            return chooseBase( group, direction, option, reference );
+        }
+
+        // If the next point is concave, we want to use the current point
+        else if ( direction == Clockwise && optionSlope < slope ) {
+            return examine;
+        }
+        else if ( direction == CounterClockwise && optionSlope > slope ) {
+            return examine;
+        }
+
+        else {
+            return chooseBase( group, direction, option, reference );
+        }
+    }
+
+    /** Returns the base point for the left group */
+    public static function chooseBaseLeft<T: DhxPoint>(
+        left: EdgeGroup<T>, right: T
+    ): T {
+        return chooseBase(left, Clockwise, left.bottomRight(), right);
+    }
+
+    /** Returns the base point for the right group */
+    public static function chooseBaseRight<T: DhxPoint>(
+        left: T, right: EdgeGroup<T>
+    ): T {
+        return chooseBase(right, CounterClockwise, right.bottomLeft(), left);
+    }
+
     /** Merges together sets of edges */
     public static function merge<T: DhxPoint>(
         left: EdgeGroup<T>, right: EdgeGroup<T>
     ): EdgeGroup<T> {
-        var baseLeft = left.bottomRight();
-        var baseRight = right.bottomLeft();
+        var baseLeft = chooseBaseLeft(left, right.bottomLeft());
+        var baseRight = chooseBaseRight(baseLeft, right);
 
         mergeWithBase(left, right, baseLeft, baseRight);
         left.addAll( right );

@@ -134,5 +134,86 @@ class TriangulateTest {
             e(5, 1,  5, 3)
         ]);
     }
+
+    @Test public function testLeftHigherThanRight():Void {
+        // Edges for the following grid:
+        //
+        // 2 | *  *
+        // 1 |
+        // 0 |       *  *
+        //   -------------
+        //     0  1  2  3
+
+        assertEdges([
+            e(0, 2,  1, 2), e(0, 2,  2, 0),
+            e(1, 2,  2, 0), e(1, 2,  3, 0),
+            e(2, 0,  3, 0)
+        ]);
+    }
+
+    @Test public function testHorizontalGride():Void {
+        // Edges for the following grid:
+        //
+        // 0 | *  *  *  *
+        //   -------------
+        //     0  1  2  3
+
+        assertEdges([
+            e(0, 0,  1, 0),
+            e(1, 0,  2, 0),
+            e(2, 0,  3, 0)
+        ]);
+    }
+
+    @Test public function testRightHigherThanLeft():Void {
+        // Edges for the following grid:
+        //
+        // 2 |       *  *
+        // 1 |
+        // 0 | *  *
+        //   -------------
+        //     0  1  2  3
+
+        assertEdges([
+            e(0, 0,  1, 0), e(0, 0,  2, 2),
+            e(1, 0,  2, 2), e(1, 0,  3, 2),
+            e(2, 2,  3, 2)
+        ]);
+    }
+
+    @Test public function testVerticalLine():Void {
+        // Edges for the following grid:
+        //
+        // 3 |    *
+        // 2 |    *
+        // 1 |    *
+        // 0 |    *
+        //   -------------
+        //     0  1  2  3
+
+        assertEdges([
+            e(1, 0,  1, 1),
+            e(1, 1,  1, 2),
+            e(1, 2,  1, 3)
+        ]);
+    }
+
+    @Test public function testDiagonalLine():Void {
+        // Edges for the following grid:
+        //
+        // 3 |          *
+        // 2 |       *
+        // 1 |    *
+        // 0 | *
+        //   -------------
+        //     0  1  2  3
+
+        assertEdges([
+            e(0, 0,  1, 1),
+            e(1, 1,  2, 2),
+            e(2, 2,  3, 3)
+        ]);
+    }
+
 }
 
