@@ -156,8 +156,8 @@ class DivideAndConquer {
     public static function merge<T: DhxPoint>(
         left: EdgeGroup<T>, right: EdgeGroup<T>
     ): EdgeGroup<T> {
-        var baseLeft = chooseBaseLeft(left, right.bottomLeft());
-        var baseRight = chooseBaseRight(baseLeft, right);
+        var baseRight = chooseBaseRight(left.bottomRight(), right);
+        var baseLeft = chooseBaseLeft(left, baseRight);
 
         mergeWithBase(left, right, baseLeft, baseRight);
         left.addAll( right );

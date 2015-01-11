@@ -215,5 +215,21 @@ class TriangulateTest {
         ]);
     }
 
+    @Test public function testDeceptiveBaseEdge():Void {
+        // Edges for the following grid:
+        //
+        // 2 | *     *
+        // 1 | *
+        // 0 | *
+        //   -------------
+        //     0  1  2  3
+
+        assertEdges([
+            e(0, 0,  0, 1), e(0, 0,  2, 2),
+            e(0, 1,  0, 2), e(0, 1,  2, 2),
+            e(0, 2,  2, 2)
+        ]);
+    }
+
 }
 
