@@ -92,11 +92,8 @@ class DivideAndConquer {
         examine: T, reference: T
     ): T {
 
-        var examineY = examine.getY();
-        var rise = reference.getY() - examineY;
-
         // If we see a horizontal line, both right and left are on even ground
-        if ( rise == 0 ) {
+        if ( reference.getY() == examine.getY() ) {
             return examine;
         }
 
@@ -106,33 +103,6 @@ class DivideAndConquer {
         if ( option == null ) {
             return examine;
         }
-
-        var examineX = examine.getX();
-        var run = reference.getX() - examineX;
-
-        // If we see a vertical line, we need to look for more points
-        if ( run == 0 ) {
-            return chooseBase( group, direction, option, reference );
-        }
-
-        var slope = rise / run;
-        var optionSlope =
-            (option.getY() - examineY) / (option.getX() - examineX);
-
-        // If the next point is an extension of this point, we need to keep
-        // looking further
-        if ( slope == optionSlope ) {
-            return chooseBase( group, direction, option, reference );
-        }
-
-        // If the next point is concave, we want to use the current point
-        else if ( direction == Clockwise && optionSlope < slope ) {
-            return examine;
-        }
-        else if ( direction == CounterClockwise && optionSlope > slope ) {
-            return examine;
-        }
-
         else {
             return chooseBase( group, direction, option, reference );
         }

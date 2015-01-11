@@ -138,7 +138,6 @@ class DivideAndConquerTest {
     }
 
     @Test public function testChooseBases():Void {
-
         // Even ground
         DivideAndConquer.chooseBases(
             new EdgeGroup<RealPoint>().add( p(0, 0), p(2, 0) ),
@@ -205,6 +204,13 @@ class DivideAndConquerTest {
             new EdgeGroup<RealPoint>().add( p(0, 0), p(0, 1) ),
             new EdgeGroup<RealPoint>().add( p(0, 2), p(2, 2) ),
             assertPoints( p(0, 0), p(2, 2) )
+        );
+
+        // Angled edges with vertical join
+        DivideAndConquer.chooseBases(
+            new EdgeGroup<RealPoint>().add( p(0, 0), p(2, 1) ),
+            new EdgeGroup<RealPoint>().add( p(2, 2), p(4, 3) ),
+            assertPoints( p(2, 1), p(4, 3) )
         );
     }
 }

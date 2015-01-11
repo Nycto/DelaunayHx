@@ -231,5 +231,22 @@ class TriangulateTest {
         ]);
     }
 
+    @Test public function testMergeFromNonBottom():Void {
+
+        // Edges for the following grid:
+        //
+        // 3 |             *
+        // 2 |       *
+        // 1 |       *
+        // 0 | *
+        //   ----------------
+        //     0  1  2  3  4
+
+        assertEdges([
+            e(0, 0,  2, 1), e(0, 0,  2, 2),
+            e(2, 1,  2, 2), e(2, 1,  4, 3),
+            e(2, 2,  4, 3)
+        ]);
+    }
 }
 
