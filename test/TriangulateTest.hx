@@ -21,6 +21,22 @@ class TriangulateTest {
         return new Edge( p(x1, y1), p(x2, y2) );
     }
 
+    private function es ( from: RealPoint, to: Array<RealPoint> ) {
+        return Lambda.array( Lambda.map(to, function (point) {
+            return new Edge(from, point);
+        }) );
+    }
+
+    private function flatten ( list: Array<Array<Edge<RealPoint>>> ) {
+        return Lambda.fold(
+            list,
+            function ( edges, accum: Array<Edge<RealPoint>> ) {
+                return accum.concat(edges);
+            },
+            []
+        );
+    }
+
     private function assertEdges (
         edges: Array<Edge<RealPoint>>,
         ?points: Array<RealPoint>,
@@ -247,6 +263,45 @@ class TriangulateTest {
             e(2, 1,  2, 2), e(2, 1,  4, 3),
             e(2, 2,  4, 3)
         ]);
+    }
+
+    @Test public function testComplexWithFloatingPoints() {
+        // These points were taken from here:
+        // http://www.mathworks.com/help/matlab/math/voronoi-diagrams.html
+
+        var x1 = p(-1.5, 3.2);
+        var x2 = p(1.8, 3.3);
+        var x3 = p(-3.7, 1.5);
+        var x4 = p(-1.5, 1.3);
+        var x5 = p(0.8, 1.2);
+        var x6 = p(3.3, 1.5);
+        var x7 = p(-4.0, -1.0);
+        var x8 = p(-2.3, -0.7);
+        var x9 = p(0, -0.5);
+        var x10 = p(2.0, -1.5);
+        var x11 = p(3.7, -0.8);
+        var x12 = p(-3.5, -2.9);
+        var x13 = p(-0.9, -3.9);
+        var x14 = p(2.0, -3.5);
+        var x15 = p(3.5, -2.25);
+
+        assertEdges(flatten([
+            es(x1, [ x3, x4, x5, x2 ]),
+            es(x2, [ x1, x5, x6 ]),
+            es(x3, [ x7, x8, x4, x1 ]),
+            es(x4, [ x1, x5, x9, x8, x3 ]),
+            es(x5, [ x2, x6, x10, x9, x4, x1 ]),
+            es(x6, [ x11, x10, x5, x2 ]),
+            es(x7, [ x3, x8, x12 ]),
+            es(x8, [ x4, x9, x13, x12, x7, x3 ]),
+            es(x9, [ x5, x10, x13, x8, x4 ]),
+            es(x10, [ x6, x11, x15, x14, x13, x9, x5 ]),
+            es(x11, [ x15, x10, x6 ]),
+            es(x12, [ x8, x13, x7 ]),
+            es(x13, [ x9, x10, x14, x12, x8 ]),
+            es(x14, [ x10, x15, x13 ]),
+            es(x15, [ x11, x14, x10 ])
+        ]));
     }
 }
 
