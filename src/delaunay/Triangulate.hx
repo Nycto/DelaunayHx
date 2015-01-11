@@ -13,6 +13,11 @@ class Triangulate<T: DhxPoint> {
         this.points = points;
     }
 
+    /** Add a point */
+    public inline function add ( point: T ) {
+        this.points.push(point);
+    }
+
     /** Returns a list of edges when there are only three points. */
     private static function getTrinary<T: DhxPoint>(
         points: Slice<T>
