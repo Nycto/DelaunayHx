@@ -37,3 +37,8 @@ watch:
 clean:
 	rm -rf build
 
+.PHONY: sample
+sample:
+	mkdir -p sample/build
+	haxe -main Main -cp sample/src -cp src -js sample/build/delaunay.js
+
