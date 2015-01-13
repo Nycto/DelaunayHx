@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Delaunay Sample</title>
+        <style type='text/css'>
+            body, html {
+                margin: 0;
+                padding: 0;
+                width: 100%;
+                height: 100%;
+            }
+            canvas {
+                display: block;
+            }
+        </style>
+    </head>
+    <body>
+        <canvas class='delaunay'></canvas>
+
+        <script type="text/javascript">
+            function setCanvasSize () {
+                var elems = document.querySelectorAll('canvas.delaunay');
+                [].slice.call(elems).forEach(function (el) {
+                    el.width = document.body.clientWidth;
+                    el.height = document.body.clientHeight;
+                });
+            }
+            setCanvasSize();
+            document.addEventListener('resize', setCanvasSize);
+        </script>
+        <script type="text/javascript" src="build/delaunay.js"></script>
+    </body>
+</html>
