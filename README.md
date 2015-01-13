@@ -6,6 +6,17 @@ is accomplished using a divide and conquer algorithm, as described here:
 
 http://www.geom.uiuc.edu/~samuelp/del_project.html
 
+[![Delaunay Example](http://nycto.github.io/DelaunayHx/DelaunaySample.png)](http://nycto.github.io/DelaunayHx/)
+
+Demo
+----
+
+A demo of the output can be found here:
+http://nycto.github.io/DelaunayHx/
+
+The full source for that sample can be found here:
+https://github.com/Nycto/DelaunayHx/tree/master/sample
+
 Usage
 -----
 
