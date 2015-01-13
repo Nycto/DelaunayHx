@@ -1,1 +1,5 @@
 sample/build
+build/.temp
+build/report
+build/cpp_test
+test
