@@ -24,8 +24,8 @@ class Main {
             nodes.eachEdge(function( a, b ) {
                 trace(a + " -> " + b);
                 context.beginPath();
-                context.moveTo( a.getX(), a.getY() );
-                context.lineTo( b.getX(), b.getY() );
+                context.moveTo( a.getX(), canvas.clientHeight - a.getY() );
+                context.lineTo( b.getX(), canvas.clientHeight - b.getY() );
                 context.stroke();
             });
         }
