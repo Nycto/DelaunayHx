@@ -120,7 +120,13 @@ class DivideAndConquer {
         var baseLeft = chooseBase(
             left, Clockwise, leftBottomRight, baseRight);
 
-        callback( baseLeft, baseRight );
+        // Walk the right side back towards the right to confirm that we made
+        // the correct choice before. This can fix situations where we chose
+        // the wrong baseLeft in the first pass
+        var verifiedRight = chooseBase(
+            right, CounterClockwise, baseRight, baseLeft);
+
+        callback( baseLeft, verifiedRight );
     }
 
     /** Merges together sets of edges */

@@ -212,6 +212,14 @@ class DivideAndConquerTest {
             new EdgeGroup<RealPoint>().add( p(2, 2), p(4, 3) ),
             assertPoints( p(2, 1), p(4, 3) )
         );
+
+        // Test a circumstance where choosing the left point changes which
+        // right point should be selected
+        DivideAndConquer.chooseBases(
+            new EdgeGroup<RealPoint>().add( p(0, 0), p(3, 1) ),
+            new EdgeGroup<RealPoint>().add( p(3, 2), p(4, 4) ),
+            assertPoints( p(3, 1), p(4, 4) )
+        );
     }
 }
 

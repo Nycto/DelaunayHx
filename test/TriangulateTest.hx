@@ -229,5 +229,23 @@ class TriangulateTest {
             e(2, 2,  4, 3)
         ]);
     }
+
+    @Test public function testReconsiderRightBaseEdge () {
+        // Edges for the following grid:
+        //
+        // 4 |             *
+        // 3 |
+        // 2 |          *
+        // 1 |          *
+        // 0 | *
+        //   ----------------
+        //     0  1  2  3  4
+
+        Helper.assertEdges([
+            e(0, 0,  3, 1), e(0, 0,  3, 2), e(0, 0,  4, 4),
+            e(3, 1,  3, 2), e(3, 1,  4, 4),
+            e(3, 2,  4, 4)
+        ]);
+    }
 }
 
