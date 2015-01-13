@@ -20,14 +20,18 @@ class Main {
                 ) );
             }
 
+            var edges = "";
+
             var context = canvas.getContext2d();
+            context.beginPath();
             nodes.eachEdge(function( a, b ) {
-                trace(a + " -> " + b);
-                context.beginPath();
+                edges += a + " -> " + b + "\n";
                 context.moveTo( a.getX(), canvas.clientHeight - a.getY() );
                 context.lineTo( b.getX(), canvas.clientHeight - b.getY() );
-                context.stroke();
             });
+            context.stroke();
+
+            trace(edges);
         }
     }
 }
