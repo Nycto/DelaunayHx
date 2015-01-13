@@ -12,31 +12,33 @@ Demo
 ----
 
 A demo of the output can be found here:
+
 http://nycto.github.io/DelaunayHx/
 
 The full source for that sample can be found here:
+
 https://github.com/Nycto/DelaunayHx/tree/master/sample
 
 Usage
 -----
 
-Start by implementing `DhxPoint` interface, which allows you to use a set of
-your own objects when running the triangution:
+Start by implementing the `DhxPoint` interface, which allows you to use a set of
+your own objects as points when running the triangution:
 
 ```haxe
 package;
 
 import delaunay.DhxPoint;
 
-class MyPoint implements DhxPoint {
-    private var x: Float;
-    private var y: Float;
-    public function new ( x: Float, y: Float ) {
-        this.x = x;
-        this.y = y;
+class Coordinate implements DhxPoint {
+    private var lat: Float;
+    private var long: Float;
+    public function new ( lat: Float, long: Float ) {
+        this.lat = lat;
+        this.long = long;
     }
-    public inline function getX(): Float { return x; }
-    public inline function getY(): Float { return y; }
+    public inline function getX(): Float { return lat; }
+    public inline function getY(): Float { return long; }
 }
 ```
 
@@ -52,11 +54,11 @@ Next, accumulate your list of points into a `Triangulate` object:
 ```haxe
 // Define a set of points
 var triangulate = new delaunay.Triangulate([
-    new MyPoint(0, 0), new MyPoint(0, 4)
+    new Coordinate(0, 0), new Coordinate(0, 4)
 ]);
 
 // Add additional points if needed
-triangulate.add( new MyPoint(2, 2) );
+triangulate.add( new Coordinate(2, 2) );
 ```
 
 Finally, execute the calculation and iterate over the results by calling the
@@ -90,8 +92,8 @@ import delaunay.RealPoint;
 class Example {
     static public function main(): Void {
         var triangulate = new delaunay.Triangulate([
-            new MyPoint(0, 0), new MyPoint(0, 4),
-            new MyPoint(2, 2), new MyPoint(6, 2)
+            new Coordinate(0, 0), new Coordinate(0, 4),
+            new Coordinate(2, 2), new Coordinate(6, 2)
         ]);
 
         triangulate.eachEdge(function (point1, point2) {
@@ -101,12 +103,11 @@ class Example {
 }
 ```
 
-
 License
 -------
 
-This library is released under the MIT License, which is pretty spiffy. You 
-should have received a copy of the MIT License along with this program. If 
+This library is released under the MIT License, which is pretty spiffy. You
+should have received a copy of the MIT License along with this program. If
 not, see http://www.opensource.org/licenses/mit-license.php
 
 
